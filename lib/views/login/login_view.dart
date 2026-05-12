@@ -14,21 +14,58 @@ class LoginView extends StatelessWidget {
             // ================= HEADER IMAGE =================
             Stack(
               children: [
-                // Background image nanti
+                // Background image
                 Container(
-                  height: 280,
+                  height: 340,
                   width: double.infinity,
-                  color: Colors.grey[300],
-                  child: const Center(
-                    child: Text(
-                      "HEADER IMAGE",
-                      style: TextStyle(color: Colors.grey),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/login_img.png'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
 
-                // Overlay putih transparan
-                Container(height: 280, color: Colors.white.withOpacity(0.5)),
+                // gradient overlay
+                Container(
+                  height: 340,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.white.withOpacity(0.0),
+                        Colors.white.withOpacity(1.0),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                ),
+
+                Positioned(
+                  bottom: 35,
+                  left: 20,
+                  right: 20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      Text(
+                        "Selamat Datang!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "Silahkan masuk untuk melanjutkan ke sistem.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
 
@@ -37,20 +74,6 @@ class LoginView extends StatelessWidget {
               padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
-                  // TITLE
-                  const Text(
-                    "Selamat Datang!",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-
-                  const SizedBox(height: 2),
-
-                  const Text(
-                    "Silahkan masuk untuk melanjutkan ke sistem.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.blueGrey),
-                  ),
-
                   const SizedBox(height: 30),
 
                   // ================= ROLE =================
@@ -96,9 +119,25 @@ class LoginView extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: "Masukkan Email",
                       hintStyle: const TextStyle(color: Colors.blueGrey),
+
                       prefixIcon: const Icon(Icons.email, color: Colors.teal),
-                      border: OutlineInputBorder(
+
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 12,
+                      ),
+
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(3),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(3),
+                        borderSide: const BorderSide(
+                          color: Colors.teal,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
@@ -111,14 +150,30 @@ class LoginView extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: "Masukkan Kata Sandi",
                       hintStyle: const TextStyle(color: Colors.blueGrey),
+
                       prefixIcon: const Icon(Icons.lock, color: Colors.teal),
-                      border: OutlineInputBorder(
+
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 12,
+                      ),
+
+                      enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(3),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(3),
+                        borderSide: const BorderSide(
+                          color: Colors.teal,
+                          width: 2,
+                        ),
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 12),
 
                   // ================= REMEMBER =================
                   Row(
@@ -176,7 +231,7 @@ class LoginView extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 40),
 
                   // ================= BUTTON =================
                   SizedBox(
