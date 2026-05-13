@@ -4,8 +4,8 @@ import 'widgets/stat_card.dart';
 import 'widgets/transaction_item.dart';
 import 'widgets/section_header.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class HomeKasirView extends StatelessWidget {
+  const HomeKasirView({super.key});
 
   @override
   Widget build(BuildContext context) {

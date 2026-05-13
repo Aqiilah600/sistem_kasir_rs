@@ -120,8 +120,10 @@ class LoginView extends StatelessWidget {
                       hintText: "Masukkan Email",
                       hintStyle: const TextStyle(color: Colors.blueGrey),
 
-                      prefixIcon: const Icon(Icons.email, color: Colors.teal),
-
+                      prefixIcon: const Icon(
+                        Icons.email,
+                        color: Color(0xFF08828A),
+                      ),
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 14,
                         horizontal: 12,
@@ -151,7 +153,10 @@ class LoginView extends StatelessWidget {
                       hintText: "Masukkan Kata Sandi",
                       hintStyle: const TextStyle(color: Colors.blueGrey),
 
-                      prefixIcon: const Icon(Icons.lock, color: Colors.teal),
+                      prefixIcon: const Icon(
+                        Icons.lock,
+                        color: Color(0xFF08828A),
+                      ),
 
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 14,
@@ -166,7 +171,7 @@ class LoginView extends StatelessWidget {
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(3),
                         borderSide: const BorderSide(
-                          color: Colors.teal,
+                          color: Color(0xFF08828A),
                           width: 2,
                         ),
                       ),
@@ -243,9 +248,9 @@ class LoginView extends StatelessWidget {
 
                         gradient: const LinearGradient(
                           colors: [
-                            Color.fromARGB(255, 2, 106, 130),
-                            Colors.teal,
-                            Color(0xFF4DB6AC),
+                            Color(0xFF08828A),
+                            Color(0xFF339D9B),
+                            Color(0xFF61BBAD),
                           ],
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
@@ -253,7 +258,7 @@ class LoginView extends StatelessWidget {
 
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.teal.withOpacity(0.3),
+                            color: Color(0xFF08828A).withOpacity(0.3),
                             blurRadius: 6,
                             offset: const Offset(0, 4),
                           ),
