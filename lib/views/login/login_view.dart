@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-class LoginView extends StatelessWidget {
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,6 +124,7 @@ class LoginView extends StatelessWidget {
 
                   //EMAIL
                   TextField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       hintText: "Masukkan Email",
                       hintStyle: const TextStyle(color: Colors.blueGrey),
@@ -148,6 +157,7 @@ class LoginView extends StatelessWidget {
 
                   //PASSWORD
                   TextField(
+                    controller: passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Masukkan Kata Sandi",
@@ -266,7 +276,37 @@ class LoginView extends StatelessWidget {
                       ),
 
                       child: ElevatedButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          String email = emailController.text;
+                          String password = passwordController.text;
+
+                          if (email.isEmpty || password.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Email dan password wajib diisi"),
+                              ),
+                            );
+                            return;
+                          }
+
+                          if (email == "admin@gmail.com" &&
+                              password == "123456") {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              "/home_admin",
+                            );
+                          } else if (email == "kasir@gmail.com" &&
+                              password == "123456") {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              "/home_kasir",
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Login gagal")),
+                            );
+                          }
+                        },
 
                         icon: const Icon(Icons.login, color: Colors.white),
 

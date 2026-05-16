@@ -25,7 +25,8 @@ class HomeKasirView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundImage: AssetImage("assets/pfp_admin.png"),
+              backgroundImage: AssetImage("assets/pfp_kasir.png"),
+              onBackgroundImageError: (_, __) {},
             ),
           ),
         ],
@@ -51,20 +52,28 @@ class HomeKasirView extends StatelessWidget {
             // STAT CARD (belum ada data)
             const Row(
               children: [
-                StatCard(
-                  title: "Total Pendapatan",
-                  value: "-",
-                  icon: Icons.wallet_rounded,
+                Expanded(
+                  child: StatCard(
+                    title: "Total Pendapatan",
+                    value: "-",
+                    icon: Icons.wallet_rounded,
+                  ),
                 ),
-                StatCard(
-                  title: "Jumlah Transaksi",
-                  value: "-",
-                  icon: Icons.receipt_long,
+                SizedBox(width: 10),
+                Expanded(
+                  child: StatCard(
+                    title: "Jumlah Transaksi",
+                    value: "-",
+                    icon: Icons.receipt_long,
+                  ),
                 ),
-                StatCard(
-                  title: "Jumlah Pasien",
-                  value: "-",
-                  icon: Icons.people,
+                SizedBox(width: 10),
+                Expanded(
+                  child: StatCard(
+                    title: "Jumlah Pasien",
+                    value: "-",
+                    icon: Icons.people,
+                  ),
                 ),
               ],
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sistem_kasir_rs/views/home_admin/home_admin_view.dart';
+import 'package:sistem_kasir_rs/views/home_kasir/home_kasir_view.dart';
+import 'package:sistem_kasir_rs/views/login/login_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,6 +12,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: HomeAdminView());
+    return MaterialApp(
+      initialRoute: "/",
+
+      routes: {
+        "/": (context) => const LoginView(),
+        "/home_admin": (context) => const HomeAdminView(),
+        "/home_kasir": (context) => const HomeKasirView(),
+      },
+    );
   }
 }
