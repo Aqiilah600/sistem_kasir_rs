@@ -11,7 +11,7 @@ class LoginView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // ================= HEADER IMAGE =================
+            //HEADER IMAGE
             Stack(
               children: [
                 // Background image
@@ -69,14 +69,14 @@ class LoginView extends StatelessWidget {
               ],
             ),
 
-            // ================= CONTENT =================
+            //CONTENT
             Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
                   const SizedBox(height: 30),
 
-                  // ================= ROLE =================
+                  //ROLE
                   const Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -114,7 +114,7 @@ class LoginView extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  // ================= EMAIL =================
+                  //EMAIL
                   TextField(
                     decoration: InputDecoration(
                       hintText: "Masukkan Email",
@@ -146,7 +146,7 @@ class LoginView extends StatelessWidget {
 
                   const SizedBox(height: 16),
 
-                  // ================= PASSWORD =================
+                  //PASSWORD
                   TextField(
                     obscureText: true,
                     decoration: InputDecoration(
@@ -180,7 +180,7 @@ class LoginView extends StatelessWidget {
 
                   const SizedBox(height: 12),
 
-                  // ================= REMEMBER =================
+                  //REMEMBER
                   Row(
                     children: [
                       // CHECKBOX
@@ -238,7 +238,7 @@ class LoginView extends StatelessWidget {
 
                   const SizedBox(height: 40),
 
-                  // ================= BUTTON =================
+                  //BUTTON
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -305,7 +305,7 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  // ================= ROLE CARD =================
+  //ROLE CARD
   static Widget _roleCard({
     required IconData icon,
     required String title,

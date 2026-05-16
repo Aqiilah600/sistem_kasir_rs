@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class WelcomeCard extends StatelessWidget {
-  const WelcomeCard({super.key});
+class WelcomeAdminCard extends StatelessWidget {
+  const WelcomeAdminCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,11 @@ class WelcomeCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset("assets/images/dokter_card.png", width: 90, height: 100),
+            Image.asset(
+              "assets/images/dokter_card.png",
+              width: 90,
+              height: 100,
+            ),
             const SizedBox(width: 8),
 
             Expanded(
@@ -38,7 +42,7 @@ class WelcomeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   Text(
-                    "Selamat Datang di\nSistem Kasir",
+                    "Halo, Admin!\nSiap Bertugas Hari Ini?",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -46,7 +50,7 @@ class WelcomeCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   Text(
-                    "Disini anda dapat memanggil antrian pasien dan melayani proses pembayaran hingga mencetak bukti pembayaran.",
+                    "Pantau transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.",
                     style: TextStyle(color: Colors.white70, fontSize: 12),
                   ),
                 ],
