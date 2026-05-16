@@ -8,6 +8,7 @@ class WelcomeAdminCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Container(
+        height: 160,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -28,33 +29,42 @@ class WelcomeAdminCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
-          children: [
-            Image.asset(
-              "assets/images/dokter_card.png",
-              width: 90,
-              height: 100,
-            ),
-            const SizedBox(width: 8),
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Halo, Admin!\nSiap Bertugas Hari Ini?",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 110),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      SizedBox(height: 12),
+                      Text(
+                        "Halo, Admin!\nSiap Bertugas Hari Ini?",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Pantau transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.",
+                        style: TextStyle(color: Colors.white70, fontSize: 10),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  Text(
-                    "Pantau transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.",
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
-                ],
-              ),
+                ),
+              ],
+            ),
+
+            // 🔥 TAMBAHKAN INI
+            Positioned(
+              bottom: -16,
+              top: -30,
+              left: -18,
+              child: Image.asset("assets/dokter_card.png", height: 150),
             ),
           ],
         ),

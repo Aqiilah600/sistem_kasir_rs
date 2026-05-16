@@ -28,29 +28,40 @@ class WelcomeCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            Image.asset("assets/images/dokter_card.png", width: 90, height: 100),
-            const SizedBox(width: 8),
+            Row(
+              children: [
+                const SizedBox(width: 110),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Halo, Admin!\nSiap Bertugas Hari Ini?",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        "Pantau transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.",
+                        style: TextStyle(color: Colors.white70, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Selamat Datang di\nSistem Kasir",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    "Disini anda dapat memanggil antrian pasien dan melayani proses pembayaran hingga mencetak bukti pembayaran.",
-                    style: TextStyle(color: Colors.white70, fontSize: 12),
-                  ),
-                ],
-              ),
+            // 🔥 TAMBAHKAN INI
+            Positioned(
+              bottom: -16,
+              top: -30,
+              left: -18,
+              child: Image.asset("assets/dokter_card.png", height: 150),
             ),
           ],
         ),

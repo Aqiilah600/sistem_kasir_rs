@@ -18,13 +18,14 @@ class HomeKasirView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text("Klinik App", style: TextStyle(color: Colors.black)),
-        actions: const [
+
+        title: Image.asset("assets/logo_rs2.png", height: 30),
+
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              // nanti dari user profile
-              backgroundColor: Colors.grey,
+              backgroundImage: AssetImage("assets/pfp_admin.png"),
             ),
           ),
         ],

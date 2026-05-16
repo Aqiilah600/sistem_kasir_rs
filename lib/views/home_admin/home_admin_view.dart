@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'widgets/welcome_admin_card.dart';
+// import 'widgets/section_header.dart';
+// import 'widgets/transaction_item.dart';
 
 class HomeAdminView extends StatelessWidget {
   const HomeAdminView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // nanti ini bisa diganti dari API / state management
     final List<Map<String, dynamic>> transactions = [];
 
     return Scaffold(
@@ -15,13 +16,14 @@ class HomeAdminView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text("Klinik App", style: TextStyle(color: Colors.black)),
-        actions: const [
+
+        title: Image.asset("assets/logo_rs2.png", height: 30),
+
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              // nanti dari user profile
-              backgroundColor: Colors.grey,
+              backgroundImage: AssetImage("assets/pfp_admin.png"),
             ),
           ),
         ],
@@ -32,23 +34,23 @@ class HomeAdminView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // WELCOME CARD
+            // ✅ WELCOME CARD
             const WelcomeAdminCard(),
+
             const SizedBox(height: 20),
 
+            // ✅ SECTION TITLE
             const Text(
               "Rekapitulasi Layanan Hari Ini",
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
 
-            // STAT CARD (belum ada data)
+            // 🔥 NANTI: taruh stat card di sini
             const SizedBox(height: 20),
 
-            const SizedBox(height: 12),
-
-            // LIST TRANSAKSI (dinamis)
+            // ✅ TRANSAKSI
             if (transactions.isEmpty)
               const Center(
                 child: Padding(
@@ -66,6 +68,12 @@ class HomeAdminView extends StatelessWidget {
                 itemCount: transactions.length,
                 itemBuilder: (context, index) {
                   final trx = transactions[index];
+
+                  // ⚠️ WAJIB return widget
+                  return ListTile(
+                    title: Text(trx['nama'] ?? '-'),
+                    subtitle: Text(trx['tanggal'] ?? '-'),
+                  );
                 },
               ),
           ],
@@ -75,6 +83,7 @@ class HomeAdminView extends StatelessWidget {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: "Pasien"),
