@@ -60,7 +60,7 @@ class WelcomeCard extends StatelessWidget {
             Positioned(
               bottom: -16,
               top: -30,
-              left: -18,
+              left: -19,
               child: Image.asset("assets/dokter_card.png", height: 150),
             ),
           ],

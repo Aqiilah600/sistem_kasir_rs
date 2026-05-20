@@ -3,9 +3,18 @@ import 'widgets/welcome_card.dart';
 import 'widgets/stat_card.dart';
 import 'widgets/transaction_item.dart';
 import 'widgets/section_header.dart';
+import '../profile/profile_view.dart';
+import '../transaksi/transaksi_view.dart';
 
-class HomeKasirView extends StatelessWidget {
+class HomeKasirView extends StatefulWidget {
   const HomeKasirView({super.key});
+
+  @override
+  State<HomeKasirView> createState() => _HomeKasirViewState();
+}
+
+class _HomeKasirViewState extends State<HomeKasirView> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +33,16 @@ class HomeKasirView extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage("assets/pfp_kasir.png"),
-              onBackgroundImageError: (_, __) {},
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ProfileView()),
+                );
+              },
+              child: CircleAvatar(
+                backgroundImage: AssetImage("assets/pfp_admin.png"),
+              ),
             ),
           ),
         ],
@@ -115,11 +131,29 @@ class HomeKasirView extends StatelessWidget {
       ),
 
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.teal,
         unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          if (index == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const TransaksiView()),
+            );
+            return;
+          }
+
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Pasien"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.format_list_bulleted),
+            label: "Antrian",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt),
             label: "Transaksi",

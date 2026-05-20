@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sistem_kasir_rs/views/home_admin/home_admin_view.dart';
-import 'package:sistem_kasir_rs/views/home_kasir/home_kasir_view.dart';
+import 'package:sistem_kasir_rs/views/admin/home_admin/home_admin_view.dart';
+import 'package:sistem_kasir_rs/views/kasir/home_kasir/home_kasir_view.dart';
 import 'package:sistem_kasir_rs/views/login/login_view.dart';
 
 void main() {

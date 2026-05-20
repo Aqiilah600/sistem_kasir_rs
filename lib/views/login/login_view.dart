@@ -289,14 +289,14 @@ class _LoginViewState extends State<LoginView> {
                             return;
                           }
 
-                          if (email == "admin@gmail.com" &&
-                              password == "123456") {
+                          if (email == "Mahaliniaulia30@adminkasir.com" &&
+                              password == "Sayaakanlawan") {
                             Navigator.pushReplacementNamed(
                               context,
                               "/home_admin",
                             );
-                          } else if (email == "kasir@gmail.com" &&
-                              password == "123456") {
+                          } else if (email == "MutiaAmelia@kasir.com" &&
+                              password == "MutiaCantikimup") {
                             Navigator.pushReplacementNamed(
                               context,
                               "/home_kasir",
