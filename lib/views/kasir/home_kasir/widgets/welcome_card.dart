@@ -39,7 +39,7 @@ class WelcomeCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
-                        "Halo, Admin!\nSiap Bertugas Hari Ini?",
+                        "Selamat datang di Sistem Kasir",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ class WelcomeCard extends StatelessWidget {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        "Pantau transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.",
+                        "Di sini Anda dapat memanggil antrian pasien dan melayani proses pembayaran hingga mencetak bukti bayar.",
                         style: TextStyle(color: Colors.white70, fontSize: 12),
                       ),
                     ],
@@ -56,7 +56,6 @@ class WelcomeCard extends StatelessWidget {
               ],
             ),
 
-            // 🔥 TAMBAHKAN INI
             Positioned(
               bottom: -16,
               top: -30,
