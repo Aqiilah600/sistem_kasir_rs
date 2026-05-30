@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import 'widgets/transaksi_data_pasien.dart';
-import 'widgets/transaksi_header.dart';
 import 'widgets/transaksi_payment.dart';
 import 'widgets/transaksi_search.dart';
 import 'widgets/transaksi_total.dart';
+import '../widgets/kasir_header.dart';
 
 class TransaksiView extends StatefulWidget {
   const TransaksiView({super.key});
@@ -33,7 +33,7 @@ class _TransaksiViewState extends State<TransaksiView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-
+      appBar: const KasirHeader(),
       // BODY
       body: SafeArea(
         child: Padding(
@@ -41,11 +41,6 @@ class _TransaksiViewState extends State<TransaksiView> {
 
           child: Column(
             children: [
-              // FIXED HEADER
-              const TransaksiHeader(),
-
-              const SizedBox(height: 20),
-
               // FIXED SEARCH
               TransaksiSearch(controller: searchController),
 
@@ -64,7 +59,6 @@ class _TransaksiViewState extends State<TransaksiView> {
                       // METODE PEMBAYARAN
                       TransaksiPayment(
                         selectedPayment: selectedPayment,
-
                         onChanged: (value) {
                           setState(() {
                             selectedPayment = value;

@@ -39,7 +39,7 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage("assets/pfp_admin.png"),
+                  backgroundImage: AssetImage("assets/pfp_kasir.png"),
                 ),
                 Container(
                   padding: const EdgeInsets.all(6),

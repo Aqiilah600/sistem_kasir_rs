@@ -7,6 +7,19 @@ class KasirBottomNavbar extends StatelessWidget {
 
   const KasirBottomNavbar({super.key, required this.currentIndex});
 
+  void _pushReplacementNoAnimation(BuildContext context, Widget page) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => page,
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            child,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -14,8 +27,8 @@ class KasirBottomNavbar extends StatelessWidget {
 
       currentIndex: currentIndex,
 
-      selectedItemColor: Colors.teal,
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: Colors.grey[800],
+      unselectedItemColor: const Color(0xFF005461),
 
       onTap: (index) {
         // JIKA TAB SAMA
@@ -23,10 +36,7 @@ class KasirBottomNavbar extends StatelessWidget {
 
         // HOME
         if (index == 0) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const HomeKasirView()),
-          );
+          _pushReplacementNoAnimation(context, const HomeKasirView());
         }
         // ANTRIAN
         else if (index == 1) {
@@ -34,10 +44,7 @@ class KasirBottomNavbar extends StatelessWidget {
         }
         // TRANSAKSI
         else if (index == 2) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const TransaksiView()),
-          );
+          _pushReplacementNoAnimation(context, const TransaksiView());
         }
         // LAINNYA
         else if (index == 3) {
@@ -46,14 +53,20 @@ class KasirBottomNavbar extends StatelessWidget {
       },
 
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+        BottomNavigationBarItem(
+          icon: ImageIcon(AssetImage("assets/home.png"), size: 20),
+          label: "Home",
+        ),
 
         BottomNavigationBarItem(
           icon: Icon(Icons.format_list_bulleted),
           label: "Antrian",
         ),
 
-        BottomNavigationBarItem(icon: Icon(Icons.receipt), label: "Transaksi"),
+        BottomNavigationBarItem(
+          icon: ImageIcon(AssetImage("assets/transaksi.png"), size: 20),
+          label: "Transaksi",
+        ),
 
         BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: "Lainnya"),
       ],

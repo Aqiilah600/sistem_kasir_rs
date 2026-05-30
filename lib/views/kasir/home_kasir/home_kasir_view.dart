@@ -4,7 +4,7 @@ import 'widgets/welcome_card.dart';
 import 'widgets/stat_card.dart';
 import 'widgets/transaction_item.dart';
 import 'widgets/section_header.dart';
-import '../profile/profile_view.dart';
+import '../widgets/kasir_header.dart';
 
 class HomeKasirView extends StatefulWidget {
   const HomeKasirView({super.key});
@@ -24,29 +24,7 @@ class _HomeKasirViewState extends State<HomeKasirView> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
 
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-
-        title: Image.asset("assets/logo_rs2.png", height: 30),
-
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const ProfileView()),
-                );
-              },
-              child: CircleAvatar(
-                backgroundImage: AssetImage("assets/pfp_kasir.png"),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: const KasirHeader(),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
