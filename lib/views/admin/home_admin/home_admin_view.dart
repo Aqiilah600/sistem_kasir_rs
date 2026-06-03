@@ -86,14 +86,13 @@ class HomeAdminView extends StatelessWidget {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Pasien"),
           BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: "Transaksi",
+            icon: Icon(Icons.people),
+            label: "Laporan Transaksi",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz),
-            label: "Lainnya",
+            icon: Icon(Icons.people),
+            label: "Kelola Akun",
           ),
         ],
       ),

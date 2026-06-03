@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import '../home_kasir/home_kasir_view.dart';
 import '../transaksi/transaksi_view.dart';
 import '../antrian/antrian_view.dart';
+import '../data_obat/data_obat_views.dart';
 
 class KasirBottomNavbar extends StatelessWidget {
   final int currentIndex;
+  final bool isLainnyaPage;
 
-  const KasirBottomNavbar({super.key, required this.currentIndex});
+  const KasirBottomNavbar({
+    super.key,
+    required this.currentIndex,
+    this.isLainnyaPage = false,
+  });
 
   void _pushReplacementNoAnimation(BuildContext context, Widget page) {
     Navigator.pushReplacement(
@@ -35,7 +41,7 @@ class KasirBottomNavbar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate ke Data Obat
+                _pushReplacementNoAnimation(context, const DataObatView());
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -126,7 +132,7 @@ class KasirBottomNavbar extends StatelessWidget {
       unselectedItemColor: const Color(0xFF005461),
 
       onTap: (index) {
-        if (index == currentIndex) return;
+        if (index == currentIndex && !isLainnyaPage) return;
 
         if (index == 0) {
           _pushReplacementNoAnimation(context, const HomeKasirView());
