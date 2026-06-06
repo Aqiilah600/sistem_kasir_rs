@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 
-class SedangDilayaniCard extends StatelessWidget {
+class SedangDilayaniCard extends StatefulWidget {
   final String nomor;
   final String nama;
   final String poli;
+
+  final VoidCallback onSelesai;
+  final VoidCallback onSkip;
 
   const SedangDilayaniCard({
     super.key,
     required this.nomor,
     required this.nama,
     required this.poli,
+    required this.onSelesai,
+    required this.onSkip,
   });
 
+  @override
+  State<SedangDilayaniCard> createState() => _SedangDilayaniCardState();
+}
+
+class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,7 +50,7 @@ class SedangDilayaniCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                nomor,
+                widget.nomor,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 48,
@@ -49,7 +59,7 @@ class SedangDilayaniCard extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                nama,
+                widget.nama,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,
@@ -57,7 +67,7 @@ class SedangDilayaniCard extends StatelessWidget {
                 ),
               ),
               Text(
-                poli,
+                widget.poli,
                 style: const TextStyle(color: Colors.white70, fontSize: 11),
               ),
             ],
@@ -80,13 +90,13 @@ class SedangDilayaniCard extends StatelessWidget {
                   _buildButton(
                     icon: Icons.check_circle_outline,
                     label: 'Selesai &\nLanjut',
-                    onPressed: () {},
+                    onPressed: widget.onSelesai,
                   ),
                 ],
               ),
               const SizedBox(height: 12),
               GestureDetector(
-                onTap: () {},
+                onTap: widget.onSkip,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.red,

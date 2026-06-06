@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import 'widgets/stat_card.dart';
-import 'widgets/antrian_item.dart';
+import 'widgets/dilewati_item.dart';
 import 'widgets/sedang_dilayani_card.dart';
 import '../widgets/kasir_header.dart';
+import '../../../models/antrian_model.dart';
 
 class AntrianView extends StatefulWidget {
   const AntrianView({super.key});
@@ -13,6 +14,45 @@ class AntrianView extends StatefulWidget {
 }
 
 class _AntrianViewState extends State<AntrianView> {
+  List<AntrianModel> antrianMenunggu = [
+    AntrianModel(nomor: "04", nama: "Nurzaenni Aulia", poli: "Poli Gigi"),
+    AntrianModel(nomor: "05", nama: "Mukaski", poli: "Poli Gigi"),
+    AntrianModel(nomor: "06", nama: "Aji Jowair", poli: "Poli Gigi"),
+  ];
+
+  List<AntrianModel> antrianDilewati = [];
+  List<AntrianModel> antrianSelesai = [];
+
+  void selesaiDanLanjut() {
+    if (antrianMenunggu.isEmpty) return;
+
+    setState(() {
+      antrianSelesai.add(antrianMenunggu.first);
+      antrianMenunggu.removeAt(0);
+    });
+  }
+
+  void skipAntrian() {
+    if (antrianMenunggu.isEmpty) return;
+
+    setState(() {
+      antrianDilewati.add(antrianMenunggu.first);
+      antrianMenunggu.removeAt(0);
+    });
+  }
+
+  void panggilUlang(AntrianModel antrian) {
+    setState(() {
+      antrianDilewati.remove(antrian);
+
+      // Langsung jadi antrian berikutnya
+      antrianMenunggu.insert(0, antrian);
+
+      // Kalau mau masuk paling belakang:
+      // antrianMenunggu.add(antrian);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +70,12 @@ class _AntrianViewState extends State<AntrianView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'Antrian Kasir', // ← Judul
+                  'Antrian Kasir',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Kelola antrian pembayaran obat dan layanan', // ← Subtitle
+                  'Kelola antrian pembayaran obat dan layanan',
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
               ],
@@ -43,11 +83,15 @@ class _AntrianViewState extends State<AntrianView> {
           ),
 
           // SEDANG DILAYANI TETAP FIXED
-          const SedangDilayaniCard(
-            nomor: '04',
-            nama: 'Nurzaenni Aulia',
-            poli: 'Poli Gigi',
-          ),
+          antrianMenunggu.isNotEmpty
+              ? SedangDilayaniCard(
+                  nomor: antrianMenunggu.first.nomor,
+                  nama: antrianMenunggu.first.nama,
+                  poli: antrianMenunggu.first.poli,
+                  onSelesai: selesaiDanLanjut,
+                  onSkip: skipAntrian,
+                )
+              : const SizedBox(),
 
           // KONTEN SCROLLABLE
           Expanded(
@@ -134,26 +178,6 @@ class _AntrianViewState extends State<AntrianView> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    const AntrianItem(
-                      nomor: '04',
-                      nama: 'Nurzaenni Aulia',
-                      poli: 'Poli Gigi',
-                      status: 'Dipanggil',
-                    ),
-                    const SizedBox(height: 8),
-                    const AntrianItem(
-                      nomor: '05',
-                      nama: 'Mukaski',
-                      poli: 'Poli Gigi',
-                      status: 'Menunggu',
-                    ),
-                    const SizedBox(height: 8),
-                    const AntrianItem(
-                      nomor: '06',
-                      nama: 'Aji Jowair',
-                      poli: 'Poli Gigi',
-                      status: 'Menunggu',
-                    ),
                     const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,11 +206,29 @@ class _AntrianViewState extends State<AntrianView> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    const AntrianItem(
+                    DilewatiItem(
                       nomor: '03',
                       nama: 'Aulia',
                       poli: 'Poli Gigi',
-                      isSkipped: true,
+                      onPanggilUlang: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (_) {
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListTile(
+                                  leading: const Icon(Icons.refresh),
+                                  title: const Text('Panggil ulang Aulia'),
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                     ),
                     const SizedBox(height: 24),
                   ],

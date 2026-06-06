@@ -10,7 +10,7 @@ class ObatSearch extends StatelessWidget {
 
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
 
       child: Column(
@@ -18,7 +18,7 @@ class ObatSearch extends StatelessWidget {
         children: [
           const Text("Nama Obat"),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
 
           TextField(
             decoration: InputDecoration(
@@ -28,6 +28,10 @@ class ObatSearch extends StatelessWidget {
 
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
+                borderSide: const BorderSide(
+                  color: Color(0xFF007F93),
+                  width: 1.5,
+                ),
               ),
             ),
           ),
