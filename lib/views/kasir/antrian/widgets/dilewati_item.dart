@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'antrian_item.dart';
 
 class DilewatiItem extends StatelessWidget {
   final String nomor;
@@ -61,18 +62,50 @@ class DilewatiItem extends StatelessWidget {
 
           Column(
             children: [
-              ElevatedButton(
-                onPressed: onPanggilUlang,
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-                child: const Text(
-                  "Panggil",
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 6),
-              ElevatedButton(
-                onPressed: onPanggilUlang,
-                child: const Text("Panggil Ulang"),
+              IconButton(
+                icon: const Icon(Icons.visibility),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Dialog(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.notifications_active,
+                              size: 50,
+                              color: Colors.teal,
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            const Text(
+                              "Panggil Ulang Antrian",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            AntrianItem(nomor: nomor, nama: nama, poli: poli),
+
+                            const SizedBox(height: 16),
+
+                            ElevatedButton(
+                              onPressed: () {
+                                onPanggilUlang();
+
+                                Navigator.pop(context); // tutup dialog
+                              },
+                              child: const Text("Panggil Ulang"),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

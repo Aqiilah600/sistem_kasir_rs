@@ -27,9 +27,14 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.teal,
         borderRadius: BorderRadius.circular(12),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF006873), Color(0xFF188C89), Color(0xFF3AC0A8)],
+        ),
       ),
+
       padding: const EdgeInsets.all(16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

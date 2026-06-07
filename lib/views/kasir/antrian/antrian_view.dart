@@ -15,6 +15,7 @@ class AntrianView extends StatefulWidget {
 
 class _AntrianViewState extends State<AntrianView> {
   List<AntrianModel> antrianMenunggu = [
+    AntrianModel(nomor: "03", nama: "Aulia", poli: "Poli Gigi"),
     AntrianModel(nomor: "04", nama: "Nurzaenni Aulia", poli: "Poli Gigi"),
     AntrianModel(nomor: "05", nama: "Mukaski", poli: "Poli Gigi"),
     AntrianModel(nomor: "06", nama: "Aji Jowair", poli: "Poli Gigi"),
@@ -44,12 +45,7 @@ class _AntrianViewState extends State<AntrianView> {
   void panggilUlang(AntrianModel antrian) {
     setState(() {
       antrianDilewati.remove(antrian);
-
-      // Langsung jadi antrian berikutnya
       antrianMenunggu.insert(0, antrian);
-
-      // Kalau mau masuk paling belakang:
-      // antrianMenunggu.add(antrian);
     });
   }
 
@@ -100,30 +96,24 @@ class _AntrianViewState extends State<AntrianView> {
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    StatCard(
-                      label: 'Total Antrian',
-                      count: '12',
-                      icon: Icons.people,
-                      color: Colors.teal,
-                    ),
-                    const SizedBox(height: 12),
                     Row(
                       children: [
                         Expanded(
                           child: StatCard(
-                            label: 'Menunggu',
-                            count: '7',
-                            icon: Icons.schedule,
-                            color: Colors.orange,
+                            label: 'Total Antrian',
+                            count:
+                                '${antrianMenunggu.length + antrianDilewati.length + antrianSelesai.length}',
+                            icon: Icons.people,
+                            color: Colors.teal,
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: StatCard(
-                            label: 'Sedang Dilayani',
-                            count: '2',
-                            icon: Icons.person,
-                            color: Colors.blue,
+                            label: 'Menunggu',
+                            count: '${antrianMenunggu.length}',
+                            icon: Icons.schedule,
+                            color: Colors.orange,
                           ),
                         ),
                       ],
@@ -133,19 +123,19 @@ class _AntrianViewState extends State<AntrianView> {
                       children: [
                         Expanded(
                           child: StatCard(
-                            label: 'Selesai',
-                            count: '2',
-                            icon: Icons.check_circle,
-                            color: Colors.purple,
+                            label: 'Sedang Dilayani',
+                            count: '${antrianMenunggu.isNotEmpty ? 1 : 0}',
+                            icon: Icons.person,
+                            color: Colors.blue,
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: StatCard(
-                            label: 'Dilewati',
-                            count: '1',
-                            icon: Icons.close,
-                            color: Colors.red,
+                            label: 'Selesai',
+                            count: '${antrianSelesai.length}',
+                            icon: Icons.check_circle,
+                            color: Colors.purple,
                           ),
                         ),
                       ],
@@ -170,9 +160,12 @@ class _AntrianViewState extends State<AntrianView> {
                             horizontal: 12,
                             vertical: 4,
                           ),
-                          child: const Text(
-                            '7 Menunggu',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          child: Text(
+                            '${antrianMenunggu.length} Menunggu',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -198,37 +191,24 @@ class _AntrianViewState extends State<AntrianView> {
                             horizontal: 12,
                             vertical: 4,
                           ),
-                          child: const Text(
-                            '1 Skip',
-                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          child: Text(
+                            '${antrianDilewati.length} Skip',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
-                    DilewatiItem(
-                      nomor: '03',
-                      nama: 'Aulia',
-                      poli: 'Poli Gigi',
-                      onPanggilUlang: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (_) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListTile(
-                                  leading: const Icon(Icons.refresh),
-                                  title: const Text('Panggil ulang Aulia'),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                    ...antrianDilewati.map(
+                      (antrian) => DilewatiItem(
+                        nomor: antrian.nomor,
+                        nama: antrian.nama,
+                        poli: antrian.poli,
+                        onPanggilUlang: () => panggilUlang(antrian),
+                      ),
                     ),
                     const SizedBox(height: 24),
                   ],
