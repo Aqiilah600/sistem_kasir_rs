@@ -5,6 +5,7 @@ import 'widgets/dilewati_item.dart';
 import 'widgets/sedang_dilayani_card.dart';
 import '../widgets/kasir_header.dart';
 import '../../../models/antrian_model.dart';
+import 'widgets/antrian_item.dart';
 
 class AntrianView extends StatefulWidget {
   const AntrianView({super.key});
@@ -47,6 +48,45 @@ class _AntrianViewState extends State<AntrianView> {
       antrianDilewati.remove(antrian);
       antrianMenunggu.insert(0, antrian);
     });
+  }
+
+  Widget buildStatCard({
+    required String label,
+    required String count,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          const BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.3),
+            blurRadius: 4,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          StatCard(label: label, count: count, icon: icon, color: color),
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: color.withAlpha((0.4 * 255).round()),
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -99,78 +139,223 @@ class _AntrianViewState extends State<AntrianView> {
                     Row(
                       children: [
                         Expanded(
-                          child: StatCard(
-                            label: 'Total Antrian',
-                            count:
-                                '${antrianMenunggu.length + antrianDilewati.length + antrianSelesai.length}',
-                            icon: Icons.people,
-                            color: Colors.teal,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.3),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: StatCard(
+                              label: 'Total Antrian',
+                              count:
+                                  '${antrianMenunggu.length + antrianDilewati.length + antrianSelesai.length}',
+                              icon: Icons.people,
+                              color: Colors.teal,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: StatCard(
-                            label: 'Menunggu',
-                            count: '${antrianMenunggu.length}',
-                            icon: Icons.schedule,
-                            color: Colors.orange,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: StatCard(
-                            label: 'Sedang Dilayani',
-                            count: '${antrianMenunggu.isNotEmpty ? 1 : 0}',
-                            icon: Icons.person,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: StatCard(
-                            label: 'Selesai',
-                            count: '${antrianSelesai.length}',
-                            icon: Icons.check_circle,
-                            color: Colors.purple,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Daftar Antrian Pembayaran',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.teal,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 4,
-                          ),
-                          child: Text(
-                            '${antrianMenunggu.length} Menunggu',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.3),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: StatCard(
+                              label: 'Menunggu',
+                              count: '${antrianMenunggu.length}',
+                              icon: Icons.access_time,
+                              color: Colors.orange,
                             ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.3),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: StatCard(
+                              label: 'Sedang Dilayani',
+                              count: '${antrianMenunggu.isNotEmpty ? 1 : 0}',
+                              icon: Icons.headset_mic,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                const BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.3),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: StatCard(
+                              label: 'Selesai',
+                              count: '${antrianSelesai.length}',
+                              icon: Icons.check_circle,
+                              color: Colors.purple,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'Daftar Antrian Pembayaran',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.teal,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  '${antrianMenunggu.length} Menunggu',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 12),
+
+                          ...antrianMenunggu.map(
+                            (antrian) => Container(
+                              margin: const EdgeInsets.only(bottom: 8),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 45,
+                                    height: 45,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.teal[700],
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: Text(
+                                      antrian.nomor,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+
+                                  const SizedBox(width: 12),
+
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          antrian.nama,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          antrian.poli,
+                                          style: TextStyle(
+                                            color: Colors.teal[300],
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: antrian == antrianMenunggu.first
+                                          ? Colors.teal.shade100
+                                          : Colors.orange.shade100,
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      antrian == antrianMenunggu.first
+                                          ? 'Dipanggil'
+                                          : 'Menunggu',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: antrian == antrianMenunggu.first
+                                            ? Colors.teal
+                                            : Colors.orange,
+                                      ),
+                                    ),
+                                  ),
+
+                                  IconButton(
+                                    onPressed: () {
+                                      showDetailAntrianDialog(
+                                        context,
+                                        nomor: antrian.nomor,
+                                        nama: antrian.nama,
+                                        poli: antrian.poli,
+                                        status: antrian == antrianMenunggu.first
+                                            ? 'Dipanggil'
+                                            : 'Menunggu',
+                                      );
+                                    },
+                                    icon: const Icon(Icons.visibility),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

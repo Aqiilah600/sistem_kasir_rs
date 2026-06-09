@@ -33,6 +33,9 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
           end: Alignment.bottomRight,
           colors: [Color(0xFF006873), Color(0xFF188C89), Color(0xFF3AC0A8)],
         ),
+        boxShadow: const [
+          BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 6)),
+        ],
       ),
 
       padding: const EdgeInsets.all(16),
@@ -78,28 +81,22 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
             ],
           ),
 
-          // KANAN: TOMBOL (SEJAJAR HORIZONTAL)
-          Column(
+          Row(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildButton(
-                    icon: Icons.call,
-                    label: 'Panggil\nUlang',
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 8),
-                  _buildButton(
-                    icon: Icons.check_circle_outline,
-                    label: 'Selesai &\nLanjut',
-                    onPressed: widget.onSelesai,
-                  ),
-                ],
+              _buildButton(
+                icon: Icons.call,
+                label: 'Panggil\nUlang',
+                onPressed: () {},
               ),
-              const SizedBox(height: 12),
+              const SizedBox(width: 8),
+              _buildButton(
+                icon: Icons.check_circle_outline,
+                label: 'Selesai &\nLanjut',
+                onPressed: widget.onSelesai,
+              ),
+              const SizedBox(width: 8),
               GestureDetector(
                 onTap: widget.onSkip,
                 child: Container(
@@ -133,31 +130,63 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
     required String label,
     required VoidCallback onPressed,
   }) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.teal[700], // ← Lebih gelap
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 24),
-            const SizedBox(height: 6),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
-                height: 1.2,
+    return _ActionButton(icon: icon, label: label, onPressed: onPressed);
+  }
+}
+
+class _ActionButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  const _ActionButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  State<_ActionButton> createState() => _ActionButtonState();
+}
+
+class _ActionButtonState extends State<_ActionButton> {
+  bool isHover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final buttonColor = isHover
+        ? const Color(0xFF006873)
+        : const Color(0xFF26A69B);
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHover = true),
+      onExit: (_) => setState(() => isHover = false),
+      child: GestureDetector(
+        onTap: widget.onPressed,
+        child: Container(
+          decoration: BoxDecoration(
+            color: buttonColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(widget.icon, color: Colors.white, size: 24),
+              const SizedBox(height: 6),
+              Text(
+                widget.label,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  height: 1.2,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
