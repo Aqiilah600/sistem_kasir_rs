@@ -38,7 +38,8 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
         ],
       ),
 
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,77 +49,94 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Sedang Dilayani',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                widget.nomor,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                widget.nama,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                widget.poli,
-                style: const TextStyle(color: Colors.white70, fontSize: 11),
-              ),
-            ],
-          ),
-
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildButton(
-                icon: Icons.call,
-                label: 'Panggil\nUlang',
-                onPressed: () {},
-              ),
-              const SizedBox(width: 8),
-              _buildButton(
-                icon: Icons.check_circle_outline,
-                label: 'Selesai &\nLanjut',
-                onPressed: widget.onSelesai,
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: widget.onSkip,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(6),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFF37BCA7),
+                    ),
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
-                  child: const Text(
-                    'Skip',
+                  const SizedBox(width: 6),
+                  const Text(
+                    'Sedang Dilayani',
                     style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 1),
+              // Center the queue number without affecting the buttons on the right
+              SizedBox(
+                width: 120,
+                height: 60,
+                child: Center(
+                  child: Text(
+                    widget.nomor,
+                    style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 13,
+                      fontSize: 48,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
+              const SizedBox(height: 0),
+              SizedBox(
+                width: 120,
+                height: 20,
+                child: Center(
+                  child: Text(
+                    widget.nama,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 120,
+                height: 20,
+                child: Center(
+                  child: Text(
+                    widget.poli,
+                    style: const TextStyle(color: Colors.white, fontSize: 10),
+                  ),
+                ),
+              ),
             ],
+          ),
+
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.hardEdge,
+              child: Row(
+                children: [
+                  _buildButton(
+                    icon: Icons.call,
+                    label: 'Panggil\nUlang',
+                    onPressed: () {},
+                  ),
+                  const SizedBox(width: 8),
+                  _buildButton(
+                    icon: Icons.check_circle_outline,
+                    label: 'Selesai &\nLanjut',
+                    onPressed: widget.onSelesai,
+                  ),
+                  const SizedBox(width: 8),
+                  _SkipButton(onPressed: widget.onSkip),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -164,28 +182,88 @@ class _ActionButtonState extends State<_ActionButton> {
       child: GestureDetector(
         onTap: widget.onPressed,
         child: Container(
+          width: 65,
+          height: 65,
           decoration: BoxDecoration(
             color: buttonColor,
             borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 6,
+                offset: Offset(0, 4),
+              ),
+            ],
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(widget.icon, color: Colors.white, size: 24),
-              const SizedBox(height: 6),
+              Icon(widget.icon, color: Colors.white, size: 20),
+              const SizedBox(height: 2),
               Text(
                 widget.label,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 11,
+                  fontSize: 8.6,
                   fontWeight: FontWeight.w500,
-                  height: 1.2,
+                  height: 1,
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SkipButton extends StatefulWidget {
+  final VoidCallback onPressed;
+
+  const _SkipButton({required this.onPressed});
+
+  @override
+  State<_SkipButton> createState() => _SkipButtonState();
+}
+
+class _SkipButtonState extends State<_SkipButton> {
+  bool isHover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final buttonColor = isHover ? Colors.red.shade700 : Colors.red;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHover = true),
+      onExit: (_) => setState(() => isHover = false),
+      child: GestureDetector(
+        onTap: widget.onPressed,
+        child: Container(
+          width: 65,
+          height: 65,
+          decoration: BoxDecoration(
+            color: buttonColor,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 4,
+                offset: Offset(0, 4),
+              ),
+            ],
+          ),
+          child: const Center(
+            child: Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ),

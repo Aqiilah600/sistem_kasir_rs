@@ -3,6 +3,7 @@ import '../home_kasir/home_kasir_view.dart';
 import '../transaksi/transaksi_view.dart';
 import '../antrian/antrian_view.dart';
 import '../data_obat/data_obat_views.dart';
+import '../data_layanan/data_layanan_view.dart';
 
 class KasirBottomNavbar extends StatelessWidget {
   final int currentIndex;
@@ -68,7 +69,7 @@ class KasirBottomNavbar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate ke Data Layanan
+                _pushReplacementNoAnimation(context, const DataLayananView());
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -95,7 +96,7 @@ class KasirBottomNavbar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate ke R. Transaksi
+                _pushReplacementNoAnimation(context, const TransaksiView());
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -141,7 +142,6 @@ class KasirBottomNavbar extends StatelessWidget {
         } else if (index == 2) {
           _pushReplacementNoAnimation(context, const TransaksiView());
         } else if (index == 3) {
-          // TAMPILKAN BOTTOM SHEET
           _showLainnyaSheet(context);
         }
       },

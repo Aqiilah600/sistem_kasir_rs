@@ -164,7 +164,7 @@ class _AntrianViewState extends State<AntrianView> {
                             decoration: BoxDecoration(
                               boxShadow: [
                                 const BoxShadow(
-                                  color: Color.fromRGBO(0, 0, 0, 0.3),
+                                  color: Color(0x4D000000),
                                   blurRadius: 4,
                                   offset: Offset(0, 4),
                                 ),
