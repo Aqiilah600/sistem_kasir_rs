@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../home_kasir/home_kasir_view.dart';
-import '../transaksi/transaksi_view.dart';
 import '../antrian/antrian_view.dart';
+import '../transaksi/transaksi_view.dart';
 import '../data_obat/data_obat_views.dart';
 import '../data_layanan/data_layanan_view.dart';
 

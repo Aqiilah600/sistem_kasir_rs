@@ -37,118 +37,90 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
           BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 6)),
         ],
       ),
-
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // KIRI: NOMOR BESAR & INFO
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Flexible(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFF37BCA7),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Text(
+                      'Sedang Dilayani',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  widget.nomor,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    height: 1.1,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  widget.nama,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    height: 1.3,
+                  ),
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  widget.poli,
+                  style: const TextStyle(color: Colors.white70, fontSize: 10),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFF37BCA7),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  const Text(
-                    'Sedang Dilayani',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+              _ActionButton(
+                icon: Icons.call,
+                label: 'Panggil\nUlang',
+                onPressed: () {},
               ),
-              const SizedBox(height: 1),
-              // Center the queue number without affecting the buttons on the right
-              SizedBox(
-                width: 120,
-                height: 60,
-                child: Center(
-                  child: Text(
-                    widget.nomor,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              const SizedBox(width: 8),
+              _ActionButton(
+                icon: Icons.check_circle_outline,
+                label: 'Selesai &\nLanjut',
+                onPressed: widget.onSelesai,
               ),
-              const SizedBox(height: 0),
-              SizedBox(
-                width: 120,
-                height: 20,
-                child: Center(
-                  child: Text(
-                    widget.nama,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 120,
-                height: 20,
-                child: Center(
-                  child: Text(
-                    widget.poli,
-                    style: const TextStyle(color: Colors.white, fontSize: 10),
-                  ),
-                ),
-              ),
+              const SizedBox(width: 8),
+              _SkipButton(onPressed: widget.onSkip),
             ],
-          ),
-
-          Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.hardEdge,
-              child: Row(
-                children: [
-                  _buildButton(
-                    icon: Icons.call,
-                    label: 'Panggil\nUlang',
-                    onPressed: () {},
-                  ),
-                  const SizedBox(width: 8),
-                  _buildButton(
-                    icon: Icons.check_circle_outline,
-                    label: 'Selesai &\nLanjut',
-                    onPressed: widget.onSelesai,
-                  ),
-                  const SizedBox(width: 8),
-                  _SkipButton(onPressed: widget.onSkip),
-                ],
-              ),
-            ),
           ),
         ],
       ),
     );
-  }
-
-  Widget _buildButton({
-    required IconData icon,
-    required String label,
-    required VoidCallback onPressed,
-  }) {
-    return _ActionButton(icon: icon, label: label, onPressed: onPressed);
   }
 }
 
@@ -195,7 +167,7 @@ class _ActionButtonState extends State<_ActionButton> {
               ),
             ],
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
