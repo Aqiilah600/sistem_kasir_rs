@@ -14,8 +14,11 @@ class ObatHeader extends StatelessWidget {
             "Data Obat",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-
-          Text("List data Obat", style: TextStyle(color: Colors.grey[600])),
+          const SizedBox(height: 4),
+          Text(
+            "List data Obat",
+            style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+          ),
         ],
       ),
     );

@@ -36,9 +36,7 @@ class _AntrianViewState extends State<AntrianView> {
   }
 
   void _updateStatistik() {
-    setState(() {
-      statistik = AntriStatistik.fromList(allAntrian);
-    });
+    statistik = AntriStatistik.fromList(allAntrian);
   }
 
   void _skipAntrian(AntriItem item) {
@@ -192,30 +190,23 @@ class _AntrianViewState extends State<AntrianView> {
               child: Column(
                 children: [
                   // STAT CARDS
-                  _buildStatCard(
-                    label: 'Total Antrian',
-                    count: statistik.totalAntrian.toString(),
-                    icon: Icons.people,
-                    color: Colors.teal,
-                  ),
-                  const SizedBox(height: 10),
                   Row(
                     children: [
+                      Expanded(
+                        child: _buildStatCard(
+                          label: 'Total Antrian',
+                          count: statistik.totalAntrian.toString(),
+                          icon: Icons.people,
+                          color: Colors.teal,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: _buildStatCard(
                           label: 'Menunggu',
                           count: statistik.menunggu.toString(),
                           icon: Icons.schedule,
                           color: Colors.orange,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: _buildStatCard(
-                          label: 'Sedang Dilayani',
-                          count: statistik.sedangDilayani.toString(),
-                          icon: Icons.person,
-                          color: Colors.blue,
                         ),
                       ),
                     ],
@@ -225,19 +216,19 @@ class _AntrianViewState extends State<AntrianView> {
                     children: [
                       Expanded(
                         child: _buildStatCard(
-                          label: 'Selesai',
-                          count: statistik.selesai.toString(),
-                          icon: Icons.check_circle,
-                          color: Colors.purple,
+                          label: 'Sedang Dilayani',
+                          count: statistik.sedangDilayani.toString(),
+                          icon: Icons.person,
+                          color: Colors.blue,
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: _buildStatCard(
-                          label: 'Dilewati',
-                          count: statistik.dilewati.toString(),
-                          icon: Icons.close,
-                          color: Colors.red,
+                          label: 'Selesai',
+                          count: statistik.selesai.toString(),
+                          icon: Icons.check_circle,
+                          color: Colors.purple,
                         ),
                       ),
                     ],
@@ -281,10 +272,13 @@ class _AntrianViewState extends State<AntrianView> {
                       (item) => AntriListItem(
                         item: item,
                         onDetailTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => DetailAntriDialog(item: item),
-                          );
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  DetailAntriDialog(item: item),
+                            );
+                          });
                         },
                       ),
                     ),
@@ -328,13 +322,15 @@ class _AntrianViewState extends State<AntrianView> {
                       (item) => AntriListItem(
                         item: item,
                         onDetailTap: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => PanggilUlangDialog(
-                              item: item,
-                              onPanggilUlang: () => _panggilUlang(item),
-                            ),
-                          );
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => PanggilUlangDialog(
+                                item: item,
+                                onPanggilUlang: () => _panggilUlang(item),
+                              ),
+                            );
+                          });
                         },
                       ),
                     ),
@@ -365,6 +361,11 @@ class _AntrianViewState extends State<AntrianView> {
             color: Colors.grey.withAlpha(26),
             blurRadius: 8,
             offset: const Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.black.withAlpha(56),
+            blurRadius: 4,
+            offset: const Offset(0, 3),
           ),
         ],
       ),

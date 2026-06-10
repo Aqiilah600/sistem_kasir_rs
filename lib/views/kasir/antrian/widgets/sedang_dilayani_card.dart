@@ -34,7 +34,7 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
           colors: [Color(0xFF006873), Color(0xFF188C89), Color(0xFF3AC0A8)],
         ),
         boxShadow: const [
-          BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 6)),
+          BoxShadow(color: Colors.black26, blurRadius: 2, offset: Offset(0, 6)),
         ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -63,7 +63,7 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
                       'Sedang Dilayani',
                       style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 12,
+                        fontSize: 9.5,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -84,7 +84,7 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
                   widget.nama,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 13.5,
                     fontWeight: FontWeight.w600,
                     height: 1.3,
                   ),
@@ -162,7 +162,7 @@ class _ActionButtonState extends State<_ActionButton> {
             boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
-                blurRadius: 6,
+                blurRadius: 2,
                 offset: Offset(0, 4),
               ),
             ],
@@ -222,7 +222,7 @@ class _SkipButtonState extends State<_SkipButton> {
             boxShadow: const [
               BoxShadow(
                 color: Colors.black26,
-                blurRadius: 4,
+                blurRadius: 2,
                 offset: Offset(0, 4),
               ),
             ],

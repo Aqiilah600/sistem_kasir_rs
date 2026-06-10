@@ -33,54 +33,72 @@ class _TransaksiViewState extends State<TransaksiView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
+
       appBar: const KasirHeader(),
       // BODY
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-
-          child: Column(
-            children: [
-              // FIXED SEARCH
-              TransaksiSearch(controller: searchController),
-
-              const SizedBox(height: 14),
-
-              // SCROLLABLE CONTENT
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      // DATA PASIEN
-                      TransaksiDataPasien(data: data),
-
-                      const SizedBox(height: 14),
-
-                      // METODE PEMBAYARAN
-                      TransaksiPayment(
-                        selectedPayment: selectedPayment,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedPayment = value;
-                          });
-                        },
-                      ),
-
-                      const SizedBox(height: 14),
-
-                      // TOTAL PEMBAYARAN
-                      const TransaksiTotal(),
-
-                      const SizedBox(height: 20),
-                    ],
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Transaksi',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Kelola transaksi pasien dengan mudah dan cepat.',
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Column(
+                  children: [
+                    // FIXED SEARCH
+                    TransaksiSearch(controller: searchController),
+                    const SizedBox(height: 14),
+                    // SCROLLABLE CONTENT
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            // DATA PASIEN
+                            TransaksiDataPasien(data: data),
+                            const SizedBox(height: 14),
+                            // METODE PEMBAYARAN
+                            TransaksiPayment(
+                              selectedPayment: selectedPayment,
+                              onChanged: (value) {
+                                setState(() {
+                                  selectedPayment = value;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 14),
+                            // TOTAL PEMBAYARAN
+                            const TransaksiTotal(),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-
       // BOTTOM NAVBAR
       bottomNavigationBar: const KasirBottomNavbar(currentIndex: 2),
     );

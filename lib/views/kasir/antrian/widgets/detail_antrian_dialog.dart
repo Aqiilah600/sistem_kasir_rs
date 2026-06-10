@@ -33,24 +33,29 @@ class DetailAntriDialog extends StatelessWidget {
             const SizedBox(height: 20),
 
             // CONTENT
-            _buildDetailRow(label: 'Waktu Masuk', value: item.waktuMasuk),
-            const SizedBox(height: 16),
-            _buildDetailRow(
-              label: 'Status Antrian',
-              value: item.status,
-              valueColor: _getStatusColor(),
-            ),
-            const SizedBox(height: 16),
-            _buildDetailRow(label: 'ID Transaksi', value: item.idTransaksi),
-            const SizedBox(height: 16),
-            _buildDetailRow(
-              label: 'No Antrian',
-              value: item.nomor.toString().padLeft(2, '0'),
-            ),
-            const SizedBox(height: 16),
-            _buildDetailRow(
-              label: 'ID Antrian',
-              value: item.idAntrian.toString().padLeft(3, '0'),
+            Table(
+              columnWidths: const {
+                0: FlexColumnWidth(3),
+                1: FlexColumnWidth(2),
+              },
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: [
+                _buildDetailRow(label: 'Waktu Masuk', value: item.waktuMasuk),
+                _buildDetailRow(
+                  label: 'Status Antrian',
+                  value: item.status,
+                  valueColor: _getStatusColor(),
+                ),
+                _buildDetailRow(label: 'ID Transaksi', value: item.idTransaksi),
+                _buildDetailRow(
+                  label: 'No Antrian',
+                  value: item.nomor.toString().padLeft(2, '0'),
+                ),
+                _buildDetailRow(
+                  label: 'ID Antrian',
+                  value: item.idAntrian.toString().padLeft(3, '0'),
+                ),
+              ],
             ),
           ],
         ),
@@ -58,21 +63,32 @@ class DetailAntriDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailRow({
+  TableRow _buildDetailRow({
     required String label,
     required String value,
     Color? valueColor,
   }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return TableRow(
       children: [
-        Text(label, style: TextStyle(fontSize: 13, color: Colors.grey[600])),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: valueColor ?? Colors.black,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Text(
+            label,
+            style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: valueColor ?? Colors.black,
+              ),
+            ),
           ),
         ),
       ],
@@ -87,8 +103,6 @@ class DetailAntriDialog extends StatelessWidget {
         return Colors.orange;
       case 'Selesai':
         return Colors.green;
-      case 'Dilewati':
-        return Colors.red;
       default:
         return Colors.grey;
     }
