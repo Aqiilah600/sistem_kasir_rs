@@ -13,7 +13,7 @@ class AntriListItem extends StatelessWidget {
 
   Color _getStatusColor() {
     switch (item.status) {
-      case 'Dipanggil':
+      case 'Sedang Dilayani':
         return Colors.teal;
       case 'Menunggu':
         return const Color(0xFFF59E0B);
@@ -24,6 +24,13 @@ class AntriListItem extends StatelessWidget {
       default:
         return Colors.grey;
     }
+  }
+
+  // Label yang ditampilkan pada badge.
+  // Status 'Sedang Dilayani' ditampilkan sebagai 'Dipanggil' di daftar antrian.
+  String _getStatusLabel() {
+    if (item.status == 'Sedang Dilayani') return 'Dipanggil';
+    return item.status;
   }
 
   @override
@@ -37,7 +44,7 @@ class AntriListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.06),
+            color: Colors.grey.withAlpha((0.06 * 255).round()),
             blurRadius: 6,
             offset: const Offset(0, 2),
           ),
@@ -92,12 +99,14 @@ class AntriListItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
             decoration: BoxDecoration(
-              color: _getStatusColor().withOpacity(0.12),
+              color: _getStatusColor().withAlpha((0.12 * 255).round()),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: _getStatusColor().withOpacity(0.3)),
+              border: Border.all(
+                color: _getStatusColor().withAlpha((0.3 * 255).round()),
+              ),
             ),
             child: Text(
-              item.status,
+              _getStatusLabel(),
               style: TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
@@ -108,12 +117,15 @@ class AntriListItem extends StatelessWidget {
           const SizedBox(width: 10),
 
           // ICON DETAIL
-          GestureDetector(
-            onTap: onDetailTap,
-            child: Icon(
-              Icons.visibility_outlined,
-              size: 18,
-              color: Colors.grey[400],
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: onDetailTap,
+              child: Icon(
+                Icons.visibility_outlined,
+                size: 18,
+                color: Colors.grey[400],
+              ),
             ),
           ),
         ],

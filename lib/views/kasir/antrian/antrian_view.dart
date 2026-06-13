@@ -116,7 +116,7 @@ class _AntrianViewState extends State<AntrianView> {
   @override
   Widget build(BuildContext context) {
     final daftarAntrian = allAntrian
-        .where((item) => item.status == 'Menunggu')
+        .where((item) => item.status != 'Dilewati')
         .toList();
     final dilewati = allAntrian
         .where((item) => item.status == 'Dilewati')
@@ -218,7 +218,7 @@ class _AntrianViewState extends State<AntrianView> {
                         child: _buildStatCard(
                           label: 'Sedang Dilayani',
                           count: statistik.sedangDilayani.toString(),
-                          icon: Icons.person,
+                          icon: Icons.headset_mic,
                           color: Colors.blue,
                         ),
                       ),
@@ -380,7 +380,17 @@ class _AntrianViewState extends State<AntrianView> {
                 label,
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
-              Icon(icon, color: color, size: 20),
+              // circular icon with border
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  // no border; fill the circle with a translucent version of the color
+                  color: color.withAlpha(20),
+                ),
+                child: Center(child: Icon(icon, color: color, size: 18)),
+              ),
             ],
           ),
           const SizedBox(height: 8),

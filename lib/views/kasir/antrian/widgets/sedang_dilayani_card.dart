@@ -63,7 +63,7 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
                       'Sedang Dilayani',
                       style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 9.5,
+                        fontSize: 8.2,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

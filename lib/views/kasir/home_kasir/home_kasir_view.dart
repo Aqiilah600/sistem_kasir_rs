@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../../../models/dashboard_model.dart';
+import '../../../utils/formatter.dart';
 import '../widgets/kasir_bottom_navbar.dart';
+import '../widgets/kasir_header.dart';
 import 'widgets/welcome_card.dart';
 import 'widgets/stat_card.dart';
-import 'widgets/transaction_item.dart';
-import 'widgets/section_header.dart';
-import '../widgets/kasir_header.dart';
+import 'widgets/pendapatan_chart.dart';
+import 'widgets/statistik_layanan_table.dart';
 
 class HomeKasirView extends StatefulWidget {
   const HomeKasirView({super.key});
@@ -14,100 +16,115 @@ class HomeKasirView extends StatefulWidget {
 }
 
 class _HomeKasirViewState extends State<HomeKasirView> {
-  // removed unused _selectedIndex field
+  late DashboardStatistik statistik;
+  late List<PendapatanHarian> pendapatanMingguan;
+  late List<LayananStatistik> statistikLayanan;
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDashboardData();
+  }
+
+  // ============================================================
+  // Pemuatan data dashboard.
+  //
+  // Saat ini menggunakan data dummy dari dashboard_model.dart.
+  // Saat API tersedia, ganti isi method ini misalnya:
+  //
+  //   setState(() => isLoading = true);
+  //   final res = await api.get('/kasir/dashboard');
+  //   setState(() {
+  //     statistik = DashboardStatistik.fromJson(res.data['statistik']);
+  //     pendapatanMingguan = (res.data['pendapatan'] as List)
+  //         .map((e) => PendapatanHarian.fromJson(e))
+  //         .toList();
+  //     statistikLayanan = (res.data['layanan'] as List)
+  //         .map((e) => LayananStatistik.fromJson(e))
+  //         .toList();
+  //     isLoading = false;
+  //   });
+  // ============================================================
+  void _loadDashboardData() {
+    statistik = getDummyDashboardStatistik();
+    pendapatanMingguan = getDummyPendapatanMingguan();
+    statistikLayanan = getDummyStatistikLayanan();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // nanti ini bisa diganti dari API / state management
-    final List<Map<String, dynamic>> transactions = [];
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
-
       appBar: const KasirHeader(),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // WELCOME CARD
+                  const WelcomeCard(),
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // WELCOME CARD
-            const WelcomeCard(),
+                  const SizedBox(height: 20),
 
-            const SizedBox(height: 20),
-
-            const Text(
-              "Rekapitulasi Layanan Hari Ini",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-
-            const SizedBox(height: 12),
-
-            // STAT CARD (belum ada data)
-            const Row(
-              children: [
-                Expanded(
-                  child: StatCard(
-                    title: "Total Pendapatan",
-                    value: "-",
-                    icon: Icons.wallet_rounded,
+                  const Text(
+                    'Rekapitulasi Layanan Hari Ini',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: StatCard(
-                    title: "Jumlah Transaksi",
-                    value: "-",
-                    icon: Icons.receipt_long,
+                  const SizedBox(height: 12),
+
+                  // STAT CARDS — IntrinsicHeight agar tinggi card seragam
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: StatCard(
+                            title: 'Total Pendapatan',
+                            value: formatRupiah(statistik.totalPendapatan),
+                            icon: Icons.account_balance_wallet,
+                            color: const Color(0xFF0D7B74),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: StatCard(
+                            title: 'Jumlah Transaksi',
+                            value: '${statistik.jumlahTransaksi} Transaksi',
+                            icon: Icons.receipt_long,
+                            color: const Color(0xFF0D7B74),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: StatCard(
+                            title: 'Jumlah Pasien',
+                            value: '${statistik.jumlahPasien} Pasien',
+                            icon: Icons.people,
+                            color: const Color(0xFF0D7B74),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: StatCard(
-                    title: "Jumlah Pasien",
-                    value: "-",
-                    icon: Icons.people,
-                  ),
-                ),
-              ],
-            ),
 
-            const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-            const SectionHeader(),
+                  // GRAFIK PENDAPATAN — tap titik untuk lihat detail
+                  PendapatanChart(data: pendapatanMingguan),
 
-            const SizedBox(height: 12),
+                  const SizedBox(height: 20),
 
-            // LIST TRANSAKSI (dinamis)
-            if (transactions.isEmpty)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    "Belum ada transaksi",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-              )
-            else
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: transactions.length,
-                itemBuilder: (context, index) {
-                  final trx = transactions[index];
+                  // TABEL STATISTIK LAYANAN
+                  StatistikLayananTable(data: statistikLayanan),
 
-                  return TransactionItem(
-                    title: trx['title'],
-                    price: trx['price'],
-                    date: trx['date'],
-                  );
-                },
+                  const SizedBox(height: 16),
+                ],
               ),
-          ],
-        ),
-      ),
-
+            ),
       bottomNavigationBar: const KasirBottomNavbar(currentIndex: 0),
     );
   }
