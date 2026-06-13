@@ -60,70 +60,122 @@ class _HomeKasirViewState extends State<HomeKasirView> {
       appBar: const KasirHeader(),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // WELCOME CARD
-                  const WelcomeCard(),
-
-                  const SizedBox(height: 20),
-
-                  const Text(
-                    'Rekapitulasi Layanan Hari Ini',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          : Column(
+              children: [
+                // Fixed top area: welcome, title, stat cards
+                Container(
+                  color: Colors.transparent,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const WelcomeCard(),
+                      const SizedBox(height: 4),
+                      const Text(
+                        'Rekapitulasi Layanan Hari Ini',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF006473),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      SizedBox(
+                        height: 112,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.20),
+                                      blurRadius: 3,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: StatCard(
+                                  title: 'Total Pendapatan',
+                                  value: formatRupiah(
+                                    statistik.totalPendapatan,
+                                  ),
+                                  icon: Icons.account_balance_wallet,
+                                  color: const Color(0xFF005461),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.20),
+                                      blurRadius: 3,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: StatCard(
+                                  title: 'Jumlah Transaksi',
+                                  value:
+                                      '${statistik.jumlahTransaksi} Transaksi',
+                                  icon: Icons.receipt_long,
+                                  color: const Color(0xFF005461),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.20),
+                                      blurRadius: 3,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: StatCard(
+                                  title: 'Jumlah Pasien',
+                                  value: '${statistik.jumlahPasien} Pasien',
+                                  icon: Icons.people,
+                                  color: const Color(0xFF005461),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 12),
+                ),
 
-                  // STAT CARDS — IntrinsicHeight agar tinggi card seragam
-                  IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                // Scrollable content below
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: StatCard(
-                            title: 'Total Pendapatan',
-                            value: formatRupiah(statistik.totalPendapatan),
-                            icon: Icons.account_balance_wallet,
-                            color: const Color(0xFF0D7B74),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: StatCard(
-                            title: 'Jumlah Transaksi',
-                            value: '${statistik.jumlahTransaksi} Transaksi',
-                            icon: Icons.receipt_long,
-                            color: const Color(0xFF0D7B74),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: StatCard(
-                            title: 'Jumlah Pasien',
-                            value: '${statistik.jumlahPasien} Pasien',
-                            icon: Icons.people,
-                            color: const Color(0xFF0D7B74),
-                          ),
-                        ),
+                        const SizedBox(height: 8),
+                        PendapatanChart(data: pendapatanMingguan),
+                        const SizedBox(height: 10),
+                        StatistikLayananTable(data: statistikLayanan),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-
-                  // GRAFIK PENDAPATAN — tap titik untuk lihat detail
-                  PendapatanChart(data: pendapatanMingguan),
-
-                  const SizedBox(height: 20),
-
-                  // TABEL STATISTIK LAYANAN
-                  StatistikLayananTable(data: statistikLayanan),
-
-                  const SizedBox(height: 16),
-                ],
-              ),
+                ),
+              ],
             ),
       bottomNavigationBar: const KasirBottomNavbar(currentIndex: 0),
     );

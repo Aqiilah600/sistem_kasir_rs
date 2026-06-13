@@ -22,8 +22,8 @@ class WelcomeCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF000000).withOpacity(0.2),
-              blurRadius: 10,
+              color: const Color(0xFF000000).withOpacity(0.3),
+              blurRadius: 2,
               offset: const Offset(0, 5),
             ),
           ],

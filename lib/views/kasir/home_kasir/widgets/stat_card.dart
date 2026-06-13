@@ -38,17 +38,17 @@ class StatCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // ICON BADGE
+          // ICON BADGE — bentuk lingkaran
           Container(
             width: 32,
             height: 32,
             decoration: BoxDecoration(
               color: color.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(8),
+              shape: BoxShape.circle,
             ),
-            child: Center(child: Icon(icon, color: color, size: 16)),
+            child: Center(child: Icon(icon, color: color, size: 20)),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
 
           // TITLE — dibatasi 1 baris agar tidak memperbesar tinggi card
           Text(
@@ -57,7 +57,7 @@ class StatCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 11, color: Colors.grey[600]),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 1),
 
           // VALUE — font diperkecil & FittedBox agar tidak wrap/overflow
           FittedBox(
@@ -73,7 +73,7 @@ class StatCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 1),
 
           // SUBTITLE
           Text(

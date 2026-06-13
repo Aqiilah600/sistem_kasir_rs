@@ -1,6 +1,7 @@
 // Lokasi yang disarankan: lib/views/kasir/home/widgets/pendapatan_chart.dart
 
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:fl_chart/fl_chart.dart';
 import '../../../../models/dashboard_model.dart';
 import '../../../../utils/formatter.dart';
@@ -106,7 +107,12 @@ class PendapatanChart extends StatelessWidget {
           getDrawingHorizontalLine: (value) =>
               FlLine(color: Colors.grey.withOpacity(0.15), strokeWidth: 1),
         ),
-        borderData: FlBorderData(show: false),
+        borderData: FlBorderData(
+          show: true,
+          border: Border(
+            left: BorderSide(color: Colors.grey.withOpacity(0.25), width: 1),
+          ),
+        ),
         titlesData: FlTitlesData(
           topTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
@@ -117,13 +123,16 @@ class PendapatanChart extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50,
+              reservedSize: 60,
               interval: interval,
               getTitlesWidget: (value, meta) {
-                return Text(
-                  formatRupiahRingkas(value),
-                  style: TextStyle(fontSize: 9, color: Colors.grey[500]),
-                  textAlign: TextAlign.right,
+                return Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                    formatRupiahRingkas(value),
+                    style: TextStyle(fontSize: 9, color: Colors.grey[500]),
+                    textAlign: TextAlign.right,
+                  ),
                 );
               },
             ),
@@ -152,7 +161,7 @@ class PendapatanChart extends StatelessWidget {
         lineBarsData: [
           LineChartBarData(
             spots: spots,
-            isCurved: true,
+            isCurved: false,
             color: Colors.teal,
             barWidth: 3,
             dotData: FlDotData(
@@ -166,17 +175,7 @@ class PendapatanChart extends StatelessWidget {
                 );
               },
             ),
-            belowBarData: BarAreaData(
-              show: true,
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.teal.withOpacity(0.18),
-                  Colors.teal.withOpacity(0.0),
-                ],
-              ),
-            ),
+            belowBarData: BarAreaData(show: false),
           ),
         ],
         // INTERAKSI: tap titik untuk menampilkan tooltip
@@ -184,7 +183,7 @@ class PendapatanChart extends StatelessWidget {
           enabled: true,
           handleBuiltInTouches: true,
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => const Color(0xFF006873),
+            getTooltipColor: (touchedSpot) => Colors.white,
             tooltipBorderRadius: BorderRadius.circular(8),
             tooltipPadding: const EdgeInsets.symmetric(
               horizontal: 12,
@@ -195,12 +194,22 @@ class PendapatanChart extends StatelessWidget {
                 final index = spot.x.toInt();
                 final item = data[index];
                 return LineTooltipItem(
-                  '${formatTanggalSingkat(item.tanggal)}\n${formatRupiah(item.pendapatan)}',
+                  '${formatTanggalSingkat(item.tanggal)}\n',
                   const TextStyle(
-                    color: Colors.white,
+                    color: Colors.grey,
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
+                  children: [
+                    TextSpan(
+                      text: formatRupiah(item.pendapatan),
+                      style: const TextStyle(
+                        color: Colors.teal,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 );
               }).toList();
             },
@@ -208,20 +217,11 @@ class PendapatanChart extends StatelessWidget {
           getTouchedSpotIndicator: (barData, spotIndexes) {
             return spotIndexes.map((index) {
               return TouchedSpotIndicatorData(
-                FlLine(
-                  color: Colors.teal.withOpacity(0.4),
-                  strokeWidth: 2,
-                  dashArray: [4, 4],
-                ),
+                FlLine(strokeWidth: 0, dashArray: [4, 4]),
                 FlDotData(
                   show: true,
                   getDotPainter: (spot, percent, bar, idx) =>
-                      FlDotCirclePainter(
-                        radius: 6,
-                        color: Colors.white,
-                        strokeWidth: 3,
-                        strokeColor: Colors.teal,
-                      ),
+                      FlDotCirclePainter(radius: 6, color: Colors.teal),
                 ),
               );
             }).toList();
