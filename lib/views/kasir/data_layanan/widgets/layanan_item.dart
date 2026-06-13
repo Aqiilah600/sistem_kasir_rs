@@ -72,7 +72,7 @@ class _LayananItemState extends State<LayananItem>
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
-                      widget.layanan.icon,  // ← IconData ✓
+                      widget.layanan.icon, // ← IconData ✓
                       color: Colors.white,
                       size: 28,
                     ),

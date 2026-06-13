@@ -1,5 +1,8 @@
+// Lokasi: lib/views/kasir/data_layanan/data_layanan_view.dart
+
 import 'package:flutter/material.dart';
 import '../../../models/layanan_model.dart';
+import '../../../services/layanan_services.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import '../widgets/kasir_header.dart';
 import 'widgets/layanan_item.dart';
@@ -12,8 +15,15 @@ class DataLayananView extends StatefulWidget {
 }
 
 class _DataLayananViewState extends State<DataLayananView> {
+  final LayananService _layananService = LayananService();
   late TextEditingController _searchController;
-  late List<Layanan> filteredLayanan;
+
+  List<Layanan> allLayanan = [];
+  List<Layanan> filteredLayanan = [];
+
+  bool isLoading = true;
+  String? errorMessage;
+
   int currentPage = 1;
   final int itemsPerPage = 4;
 
@@ -21,7 +31,7 @@ class _DataLayananViewState extends State<DataLayananView> {
   void initState() {
     super.initState();
     _searchController = TextEditingController();
-    filteredLayanan = dummyLayanan;
+    _loadLayanan();
   }
 
   @override
@@ -30,30 +40,56 @@ class _DataLayananViewState extends State<DataLayananView> {
     super.dispose();
   }
 
-  void _filterLayanan(String query) {
+  // ============================================================
+  // Memuat data layanan dari service.
+  // Saat API tersedia, LayananService.getAllLayanan() tinggal
+  // diganti isinya tanpa perlu mengubah kode di sini.
+  // ============================================================
+  Future<void> _loadLayanan() async {
     setState(() {
-      if (query.isEmpty) {
-        filteredLayanan = dummyLayanan;
-      } else {
-        filteredLayanan = dummyLayanan
-            .where(
-              (layanan) =>
-                  layanan.nama.toLowerCase().contains(query.toLowerCase()),
-            )
-            .toList();
-      }
-      currentPage = 1;
+      isLoading = true;
+      errorMessage = null;
+    });
+
+    try {
+      final data = await _layananService.getAllLayanan();
+      setState(() {
+        allLayanan = data;
+        filteredLayanan = data;
+        currentPage = 1;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Gagal memuat data layanan';
+        isLoading = false;
+      });
+    }
+  }
+
+  // Filter layanan berdasarkan kata kunci pencarian.
+  Future<void> _filterLayanan(String query) async {
+    final result = await _layananService.searchLayanan(query);
+    setState(() {
+      filteredLayanan = result;
+      currentPage = 1; // reset ke halaman 1 setiap kali filter berubah
     });
   }
 
-  int get totalPages => (filteredLayanan.length / itemsPerPage).ceil();
+  int get totalPages => filteredLayanan.isEmpty
+      ? 1
+      : (filteredLayanan.length / itemsPerPage).ceil();
 
   List<Layanan> get currentPageItems {
+    if (filteredLayanan.isEmpty) return [];
+
     int startIndex = (currentPage - 1) * itemsPerPage;
     int endIndex = startIndex + itemsPerPage;
-    if (endIndex > filteredLayanan.length) {
-      endIndex = filteredLayanan.length;
-    }
+
+    // Pengaman agar tidak RangeError jika currentPage > totalPages
+    if (startIndex >= filteredLayanan.length) return [];
+    if (endIndex > filteredLayanan.length) endIndex = filteredLayanan.length;
+
     return filteredLayanan.sublist(startIndex, endIndex);
   }
 
@@ -67,24 +103,27 @@ class _DataLayananViewState extends State<DataLayananView> {
       ),
       body: Column(
         children: [
-          // HEADER & SEARCH - FIXED DI ATAS
+          // HEADER + SEARCH - FIXED DI ATAS
+          // Struktur container disamakan dengan data_obat_view.dart
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // HEADER
                 const Text(
                   'Data Layanan',
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Daftar seluruh layanan medis, tarif, dan kategori jasa kesehatan.',
-                  style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
 
                 // SEARCH BAR
                 Container(
@@ -111,27 +150,56 @@ class _DataLayananViewState extends State<DataLayananView> {
             ),
           ),
 
-          // LIST LAYANAN - SCROLLABLE
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    // LIST LAYANAN
-                    ...currentPageItems.map(
-                      (layanan) => LayananItem(layanan: layanan),
-                    ),
-
-                    // PAGINATION
-                    const SizedBox(height: 24),
-                    if (totalPages > 1) _buildPagination(),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // KONTEN: LOADING / ERROR / LIST
+          Expanded(child: _buildContent()),
         ],
+      ),
+    );
+  }
+
+  Widget _buildContent() {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (errorMessage != null) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(errorMessage!, style: const TextStyle(color: Colors.red)),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: _loadLayanan,
+              child: const Text('Coba Lagi'),
+            ),
+          ],
+        ),
+      );
+    }
+
+    if (filteredLayanan.isEmpty) {
+      return Center(
+        child: Text(
+          'Layanan tidak ditemukan',
+          style: TextStyle(color: Colors.grey[500]),
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            // LIST LAYANAN
+            ...currentPageItems.map((layanan) => LayananItem(layanan: layanan)),
+
+            // PAGINATION
+            const SizedBox(height: 24),
+            if (totalPages > 1) _buildPagination(),
+          ],
+        ),
       ),
     );
   }
