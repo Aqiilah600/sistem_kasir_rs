@@ -3,21 +3,27 @@ import '../../../../models/rekapitulasi_model.dart';
 
 class StatCardRekapitulasi extends StatelessWidget {
   final RekapitulasiData data;
+  final IconData icon; // ← ICON DARI VIEW
 
-  const StatCardRekapitulasi({super.key, required this.data});
+  const StatCardRekapitulasi({
+    super.key,
+    required this.data,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
+        margin: const EdgeInsets.only(right: 10),
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
+              color: const Color.fromRGBO(0, 0, 0, 0.35),
+              blurRadius: 3,
               offset: const Offset(0, 2),
             ),
           ],
@@ -25,41 +31,42 @@ class StatCardRekapitulasi extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ICON
+            // ICON (circular)
             Container(
-              width: 40,
-              height: 40,
+              width: 26,
+              height: 26,
               decoration: BoxDecoration(
                 color: Colors.teal[100],
-                borderRadius: BorderRadius.circular(8),
+                shape: BoxShape.circle,
               ),
-              child: Icon(data.icon, color: Colors.teal, size: 20),
+              alignment: Alignment.center,
+              child: Icon(icon, color: const Color(0xFF005461), size: 18),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 4),
 
             // LABEL
             Text(
               data.label,
               style: const TextStyle(
-                fontSize: 11,
-                color: Colors.grey,
+                fontSize: 10,
+                color: Colors.black,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 6),
+            const SizedBox(height: 2),
 
             // VALUE
             Text(
               data.value,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: Colors.teal,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
 
             // SUBTITLE
             Text(

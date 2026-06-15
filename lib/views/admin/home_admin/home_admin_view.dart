@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/rekapitulasi_model.dart';
+import '../widgets/admin_bottom_navbar.dart';
+import '../widgets/admin_header.dart';
 import 'widgets/welcome_admin_card.dart';
 import 'widgets/kelola_layanan_card.dart';
 import 'widgets/stat_card_rekapitulasi.dart';
@@ -7,89 +9,102 @@ import 'widgets/stat_card_rekapitulasi.dart';
 class HomeAdminView extends StatelessWidget {
   const HomeAdminView({super.key});
 
+  // ICON MAPPING - HARDCODED DI VIEW
+  final List<IconData> iconRekapitulasi = const [
+    Icons.account_balance_wallet, // Total Pendapatan
+    Icons.check_circle, // Jumlah Transaksi
+    Icons.people, // Jumlah Pasien
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 400;
+
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Image.asset("assets/logo_rs2.png", height: 30),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundImage: AssetImage("assets/pfp_admin.png"),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: const Color(0xFFF5F5F5),
+      appBar: const AdminHeader(),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // ✅ WELCOME CARD
-            const WelcomeAdminCard(),
-            const SizedBox(height: 16),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: isSmallScreen ? 12 : 16,
+            vertical: isSmallScreen ? 12 : 16,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // WELCOME CARD
+              const WelcomeAdminCard(),
+              SizedBox(height: isSmallScreen ? 12 : 16),
 
-            // ✅ KELOLA LAYANAN CARD
-            const KelolaLayananCard(),
-            const SizedBox(height: 24),
+              //KELOLA LAYANAN CARD
+              const KelolaLayananCard(),
+              SizedBox(height: isSmallScreen ? 20 : 24),
 
-            // ✅ REKAPITULASI LAYANAN HARI INI
-            const Text(
-              'Rekapitulasi Layanan Hari Ini',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.teal,
+              //REKAPITULASI LAYANAN HARI INI
+              Text(
+                'Rekapitulasi Layanan Hari Ini',
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 13 : 14,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF005461),
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: rekapitulasiHariIni
-                  .map((data) => StatCardRekapitulasi(data: data))
-                  .toList(),
-            ),
-            const SizedBox(height: 24),
-
-            // ✅ REKAPITULASI LAYANAN BULANAN
-            const Text(
-              'Rekapitulasi Layanan Bulanan',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.teal,
+              SizedBox(height: isSmallScreen ? 10 : 12),
+              Row(
+                children: List.generate(
+                  rekapitulasiHariIni.length,
+                  (index) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: index < rekapitulasiHariIni.length - 1
+                            ? (isSmallScreen ? 8 : 10)
+                            : 0,
+                      ),
+                      child: StatCardRekapitulasi(
+                        data: rekapitulasiHariIni[index],
+                        icon: iconRekapitulasi[index],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: rekapitulasiBulanan
-                  .map((data) => StatCardRekapitulasi(data: data))
-                  .toList(),
-            ),
-            const SizedBox(height: 24),
-          ],
+              SizedBox(height: isSmallScreen ? 20 : 24),
+
+              //REKAPITULASI LAYANAN BULANAN
+              Text(
+                'Rekapitulasi Layanan Bulanan',
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 13 : 14,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF005461),
+                ),
+              ),
+              SizedBox(height: isSmallScreen ? 10 : 12),
+              Row(
+                children: List.generate(
+                  rekapitulasiBulanan.length,
+                  (index) => Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: index < rekapitulasiBulanan.length - 1
+                            ? (isSmallScreen ? 8 : 10)
+                            : 0,
+                      ),
+                      child: StatCardRekapitulasi(
+                        data: rekapitulasiBulanan[index],
+                        icon: iconRekapitulasi[index],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: isSmallScreen ? 20 : 24),
+            ],
+          ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        selectedItemColor: Color(0xFF005461),
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.receipt),
-            label: 'Laporan Transaksi',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Kelola Akun',
-          ),
-        ],
-      ),
+      bottomNavigationBar: const AdminBottomNavbar(currentIndex: 0),
     );
   }
 }
