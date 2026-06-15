@@ -69,11 +69,22 @@ class _DataLayananViewState extends State<DataLayananView> {
 
   // Filter layanan berdasarkan kata kunci pencarian.
   Future<void> _filterLayanan(String query) async {
-    final result = await _layananService.searchLayanan(query);
+    final result = await searchLayanan(query);
     setState(() {
       filteredLayanan = result;
       currentPage = 1; // reset ke halaman 1 setiap kali filter berubah
     });
+  }
+
+  // Simple local search implementation. Uses loaded allLayanan to filter
+  // by nama (case-insensitive). Returns all items when query is empty.
+  Future<List<Layanan>> searchLayanan(String query) async {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) return allLayanan;
+    return allLayanan.where((l) {
+      final nama = (l.nama).toLowerCase();
+      return nama.contains(q);
+    }).toList();
   }
 
   int get totalPages => filteredLayanan.isEmpty
@@ -103,17 +114,15 @@ class _DataLayananViewState extends State<DataLayananView> {
       ),
       body: Column(
         children: [
-          // HEADER + SEARCH - FIXED DI ATAS
-          // Struktur container disamakan dengan data_obat_view.dart
+          // HEADER
           Container(
             color: Colors.white,
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // HEADER
                 const Text(
                   'Data Layanan',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -123,9 +132,26 @@ class _DataLayananViewState extends State<DataLayananView> {
                   'Daftar seluruh layanan medis, tarif, dan kategori jasa kesehatan.',
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
-                const SizedBox(height: 16),
+              ],
+            ),
+          ),
 
-                // SEARCH BAR
+          // SEARCH - gaya disamakan dengan TransaksiSearch
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            margin: const EdgeInsets.fromLTRB(14, 0, 14, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Nama Layanan',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.teal),
@@ -134,6 +160,7 @@ class _DataLayananViewState extends State<DataLayananView> {
                   child: TextField(
                     controller: _searchController,
                     onChanged: _filterLayanan,
+                    onSubmitted: _filterLayanan,
                     decoration: InputDecoration(
                       hintText: 'Input Nama Layanan',
                       hintStyle: TextStyle(color: Colors.grey[400]),

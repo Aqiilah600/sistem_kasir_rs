@@ -154,6 +154,7 @@ class _TransaksiViewState extends State<TransaksiView> {
                   TransaksiSearch(
                     controller: _searchController,
                     onSearch: _cariTransaksi,
+                    onTransactionFound: (_) {},
                   ),
                   const SizedBox(height: 14),
 

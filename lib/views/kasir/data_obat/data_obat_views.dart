@@ -79,16 +79,15 @@ class _DataObatViewState extends State<DataObatView> {
       ),
       body: Column(
         children: [
-          // HEADER + SEARCH — FIXED DI ATAS, langsung di dalam view ini
+          // HEADER
           Container(
             color: Colors.white,
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // HEADER
                 const Text(
                   'Data Obat',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -98,40 +97,67 @@ class _DataObatViewState extends State<DataObatView> {
                   'List data obat dan stok yang tersedia di rumah sakit.',
                   style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                 ),
-                const SizedBox(height: 16),
-
-                // SEARCH
-                const Text(
-                  'Nama Obat',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: _searchController,
-                  onChanged: _filterObat,
-                  decoration: InputDecoration(
-                    hintText: 'Input Nama Obat',
-                    hintStyle: TextStyle(color: Colors.grey[400]),
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(
-                        color: Color(0xFF007F93),
-                        width: 1.5,
-                      ),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
 
-          // KONTEN: LOADING / ERROR / LIST
-          Expanded(child: _buildContent()),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(14),
+              child: Column(
+                children: [
+                  // SEARCH — fixed di atas
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Nama Obat',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.teal),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            onChanged: _filterObat,
+                            decoration: InputDecoration(
+                              hintText: 'Input Nama Obat',
+                              hintStyle: TextStyle(color: Colors.grey[400]),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.grey[400],
+                              ),
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+
+                  // KONTEN: LOADING / ERROR / LIST — scrollable
+                  Expanded(child: _buildContent()),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

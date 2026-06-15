@@ -6,14 +6,14 @@ class KelolaLayananCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.all(12),
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(0.08),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -21,45 +21,64 @@ class KelolaLayananCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // ICON
+          // ICON CONTAINER
           Container(
-            width: 60,
-            height: 60,
+            width: 70,
+            height: 70,
             decoration: BoxDecoration(
-              color: Colors.teal[100],
-              borderRadius: BorderRadius.circular(12),
+              color: const Color(0xFF3AC0A8).withOpacity(0.2),
+              borderRadius: BorderRadius.circular(14),
             ),
-            child: const Icon(Icons.medication, color: Colors.teal, size: 32),
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.checklist_rtl,
+              color: Color(0xFF3AC0A8),
+              size: 36,
+            ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
 
-          // TEXT
+          // TEXT SECTION
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Kelola Layanan dengan Mudah',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                  'Kelola Layanan dengan\nMudah',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                    height: 1.3,
+                  ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 6),
                 Text(
                   'Semua informasi penting dalam genggaman anda.',
-                  style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey[600],
+                    height: 1.4,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
+          const SizedBox(width: 12),
 
-          // ICON ARROW
+          // ADD ICON BUTTON
           Container(
-            width: 40,
-            height: 40,
+            width: 44,
+            height: 44,
             decoration: BoxDecoration(
-              color: Colors.teal[50],
-              borderRadius: BorderRadius.circular(8),
+              color: const Color(0xFF3AC0A8).withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(Icons.add, color: Colors.teal, size: 20),
+            alignment: Alignment.center,
+            child: const Icon(Icons.add, color: Color(0xFF3AC0A8), size: 24),
           ),
         ],
       ),

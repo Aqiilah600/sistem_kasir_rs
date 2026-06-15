@@ -1,4 +1,5 @@
 // Lokasi: lib/models/transaksi_model.dart
+import 'obat_model.dart';
 
 class ItemObat {
   final String nama;
@@ -117,19 +118,74 @@ class Transaksi {
 // DUMMY DATA — Ganti dengan TransaksiService.getByNoAntrian()
 // saat API tersedia.
 // ============================================================
+// Dummy transaksi yang disesuaikan dengan data antrian
 Transaksi getDummyTransaksi() => Transaksi(
-  idTransaksi: '1003',
-  idRm: '9921',
-  namaPasien: 'Hafis Ridho',
-  tarifDokter: 180000,
-  tarifPerawat: 80000,
-  subtotalObat: 8000,
+  idTransaksi: '1002', // sesuai dengan AntriItem idTransaksi di antrian_model
+  idRm: '9920',
+  namaPasien: 'Aulia',
+  tarifDokter: 120000,
+  tarifPerawat: 50000,
+  subtotalObat: 15000,
   status: 'Menunggu',
   tanggal: '2026-04-23',
-  noInvoice: 'INV-2026/001-001',
+  noInvoice: 'INV-2026/001-000',
   daftarObat: [
-    ItemObat(nama: 'Cafodixil 500mg', jumlah: 2, harga: 15000),
-    ItemObat(nama: 'Enervon-C', jumlah: 3, harga: 18000),
+    // Ambil data dari dummyObat di obat_model.dart
+    ItemObat(nama: dummyObat[0].nama, jumlah: 1, harga: dummyObat[0].harga),
   ],
-  daftarLayanan: [ItemLayanan(nama: 'Jantung', jumlah: 1, harga: 180000)],
+  daftarLayanan: [ItemLayanan(nama: 'Poli Gigi', jumlah: 1, harga: 120000)],
 );
+
+// Tambahan: beberapa data dummy lain untuk keperluan testing
+List<Transaksi> getDummyTransaksiList() => [
+  // Sesuaikan dengan getInitialAntrian() di antrian_model.dart
+  getDummyTransaksi(),
+  Transaksi(
+    idTransaksi: '1003',
+    idRm: '9921',
+    namaPasien: 'Nazwarni Aulia',
+    tarifDokter: 180000,
+    tarifPerawat: 80000,
+    subtotalObat: 8000,
+    status: 'Menunggu',
+    tanggal: '2026-04-23',
+    noInvoice: 'INV-2026/001-001',
+    daftarObat: [
+      ItemObat(nama: dummyObat[0].nama, jumlah: 2, harga: dummyObat[0].harga),
+      ItemObat(nama: dummyObat[1].nama, jumlah: 3, harga: dummyObat[1].harga),
+    ],
+    daftarLayanan: [
+      ItemLayanan(nama: 'Poli Jantung', jumlah: 1, harga: 180000),
+    ],
+  ),
+  Transaksi(
+    idTransaksi: '1004',
+    idRm: '9922',
+    namaPasien: 'Muzakir',
+    tarifDokter: 150000,
+    tarifPerawat: 60000,
+    subtotalObat: 25000,
+    status: 'Selesai',
+    tanggal: '2026-04-20',
+    noInvoice: 'INV-2026/001-002',
+    daftarObat: [
+      ItemObat(nama: dummyObat[2].nama, jumlah: 5, harga: dummyObat[2].harga),
+    ],
+    daftarLayanan: [
+      ItemLayanan(nama: 'Poli Jantung', jumlah: 1, harga: 150000),
+    ],
+  ),
+  Transaksi(
+    idTransaksi: '1005',
+    idRm: '9923',
+    namaPasien: 'Iki Jawir',
+    tarifDokter: 200000,
+    tarifPerawat: 90000,
+    subtotalObat: 0,
+    status: 'Dalam Proses',
+    tanggal: '2026-04-22',
+    noInvoice: 'INV-2026/001-003',
+    daftarObat: [],
+    daftarLayanan: [ItemLayanan(nama: 'Poli Mata', jumlah: 1, harga: 200000)],
+  ),
+];

@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-import '../../../models/rekapitulasi_model.dart';
-import '../widgets/admin_bottom_navbar.dart';
+import '../../../models/dashboard_model.dart';
 import '../widgets/admin_header.dart';
+import '../widgets/admin_bottom_navbar.dart';
+// menggunakan custom admin header dan bottom navbar
 import 'widgets/welcome_admin_card.dart';
 import 'widgets/kelola_layanan_card.dart';
 import 'widgets/stat_card_rekapitulasi.dart';
+
+// Ambil data dummy dari dashboard_model.dart
+final List<DashboardStatistik> rekapitulasiHariIni = List.generate(
+  3,
+  (_) => getDummyDashboardStatistik(),
+);
+
+final List<DashboardStatistik> rekapitulasiBulanan = List.generate(
+  3,
+  (_) => getDummyDashboardStatistik(),
+);
 
 class HomeAdminView extends StatelessWidget {
   const HomeAdminView({super.key});
