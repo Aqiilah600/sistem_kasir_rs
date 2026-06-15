@@ -1,7 +1,7 @@
+// Lokasi: lib/views/kasir/home_kasir/widgets/stat_card.dart
+
 import 'package:flutter/material.dart';
 
-/// Card kecil untuk menampilkan satu angka rekapitulasi
-/// (Total Pendapatan, Jumlah Transaksi, Jumlah Pasien, dll).
 class StatCard extends StatelessWidget {
   final String title;
   final String value;
@@ -20,46 +20,34 @@ class StatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withAlpha(26),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.min, // penting: menyesuaikan tinggi konten
         children: [
-          // ICON BADGE — bentuk lingkaran
+          // ICON BADGE
           Container(
-            width: 32,
-            height: 32,
+            width: 28,
+            height: 28,
             decoration: BoxDecoration(
               color: color.withOpacity(0.12),
               shape: BoxShape.circle,
             ),
-            child: Center(child: Icon(icon, color: color, size: 20)),
+            child: Center(child: Icon(icon, color: color, size: 18)),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
 
-          // TITLE — dibatasi 1 baris agar tidak memperbesar tinggi card
+          // TITLE
           Text(
             title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+            style: TextStyle(fontSize: 10, color: Colors.grey[600]),
           ),
-          const SizedBox(height: 1),
+          const SizedBox(height: 3),
 
-          // VALUE — font diperkecil & FittedBox agar tidak wrap/overflow
+          // VALUE
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -67,13 +55,13 @@ class StatCard extends StatelessWidget {
               value,
               maxLines: 1,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: FontWeight.bold,
                 color: color,
               ),
             ),
           ),
-          const SizedBox(height: 1),
+          const SizedBox(height: 2),
 
           // SUBTITLE
           Text(

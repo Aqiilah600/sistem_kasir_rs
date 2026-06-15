@@ -1,14 +1,19 @@
+// Lokasi: lib/views/kasir/transaksi/widgets/detail_transaksi_sheet.dart
+
 import 'package:flutter/material.dart';
+import '../../../../models/transaksi_model.dart';
+import '../../../../utils/formatter.dart';
 
 class DetailTransaksiSheet extends StatelessWidget {
-  const DetailTransaksiSheet({super.key});
+  final Transaksi transaksi;
+
+  const DetailTransaksiSheet({super.key, required this.transaksi});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(color: Colors.white),
-
+      color: Colors.white,
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,7 +24,7 @@ class DetailTransaksiSheet extends StatelessWidget {
                 const Icon(Icons.receipt_long, color: Colors.teal),
                 const SizedBox(width: 8),
                 const Text(
-                  "Detail Transaksi",
+                  'Detail Transaksi',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const Spacer(),
@@ -31,103 +36,185 @@ class DetailTransaksiSheet extends StatelessWidget {
             ),
             const Divider(),
 
-            // INFO ATAS
+            // INFO PASIEN
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFFFFF),
-                borderRadius: BorderRadius.circular(3),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(6),
                 border: Border.all(color: const Color(0xFFCCCCCC)),
               ),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        _infoItem("No Invoice", "INV-2026/001-001"),
-                        _infoItem("Pasien", "Hafis Ridho"),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: _infoItem("Tanggal", "24/05/2026"),
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _InfoItem(
+                        title: 'No Invoice',
+                        value: transaksi.noInvoice,
+                      ),
+                      _InfoItem(title: 'Pasien', value: transaksi.namaPasien),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  _InfoItem(title: 'Tanggal', value: transaksi.tanggal),
+                ],
               ),
             ),
-
-            const SizedBox(height: 10),
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: _infoItem("Tanggal", "24/05/2026"),
-            ),
-
             const SizedBox(height: 16),
 
-            // ================= OBAT =================
-            _sectionTitle("Daftar Obat"),
+            // DAFTAR OBAT
+            _sectionTitle('Daftar Obat'),
             _tableHeader(),
-            _tableRow("Cafodixil 500mg", "2", "Rp 15.000", "Rp 30.000"),
-            _tableRow("Enervon-C", "3", "Rp 18.000", "Rp 54.000"),
-
+            ...transaksi.daftarObat.map(
+              (item) => _tableRow(
+                item.nama,
+                item.jumlah.toString(),
+                formatRupiah(item.harga),
+                formatRupiah(item.subtotal),
+              ),
+            ),
             const SizedBox(height: 6),
-
-            const Align(
+            Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "Total Obat : Rp 84.000",
-                style: TextStyle(
+                'Total Obat : ${formatRupiah(transaksi.totalObat)}',
+                style: const TextStyle(
                   color: Color(0xFF007F93),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-
             const SizedBox(height: 16),
 
-            // ================= LAYANAN =================
-            _sectionTitle("Daftar Layanan"),
+            // DAFTAR LAYANAN
+            _sectionTitle('Daftar Layanan'),
             _tableHeader(),
-            _tableRow("Jantung", "2", "Rp 180.000", "Rp 180.000"),
-
+            ...transaksi.daftarLayanan.map(
+              (item) => _tableRow(
+                item.nama,
+                item.jumlah.toString(),
+                formatRupiah(item.harga),
+                formatRupiah(item.subtotal),
+              ),
+            ),
             const SizedBox(height: 6),
-
-            const Align(
+            Align(
               alignment: Alignment.centerRight,
               child: Text(
-                "Total Layanan : Rp 180.000",
-                style: TextStyle(
+                'Total Layanan : ${formatRupiah(transaksi.totalLayanan)}',
+                style: const TextStyle(
                   color: Color(0xFF007F93),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+            const SizedBox(height: 16),
 
-            const SizedBox(height: 20),
+            // GRAND TOTAL
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF007F93).withOpacity(0.08),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFF007F93)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Total Keseluruhan',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    formatRupiah(transaksi.totalKeseluruhan),
+                    style: const TextStyle(
+                      color: Color(0xFF007F93),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),
     );
   }
+
+  Widget _sectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Text(
+        title,
+        style: const TextStyle(
+          color: Color(0xFF007F93),
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _tableHeader() {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      color: const Color(0xFF007F93),
+      child: const Row(
+        children: [
+          Expanded(
+            child: Text('Nama', style: TextStyle(color: Colors.white)),
+          ),
+          Expanded(
+            child: Text('Jml', style: TextStyle(color: Colors.white)),
+          ),
+          Expanded(
+            child: Text('Harga', style: TextStyle(color: Colors.white)),
+          ),
+          Expanded(
+            child: Text('Subtotal', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _tableRow(String nama, String jumlah, String harga, String subtotal) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.grey)),
+      ),
+      child: Row(
+        children: [
+          Expanded(child: Text(nama, style: const TextStyle(fontSize: 12))),
+          Expanded(child: Text(jumlah, style: const TextStyle(fontSize: 12))),
+          Expanded(child: Text(harga, style: const TextStyle(fontSize: 12))),
+          Expanded(child: Text(subtotal, style: const TextStyle(fontSize: 12))),
+        ],
+      ),
+    );
+  }
 }
 
-class _infoItem extends StatelessWidget {
+class _InfoItem extends StatelessWidget {
   final String title;
   final String value;
 
-  const _infoItem(this.title, this.value);
+  const _InfoItem({required this.title, required this.value});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(color: Colors.black, fontSize: 12)),
+        Text(
+          title,
+          style: const TextStyle(color: Colors.black54, fontSize: 12),
+        ),
         const SizedBox(height: 2),
         Text(
           value,
@@ -139,62 +226,4 @@ class _infoItem extends StatelessWidget {
       ],
     );
   }
-}
-
-Widget _sectionTitle(String title) {
-  return Align(
-    alignment: Alignment.centerLeft,
-    child: Padding(
-      padding: const EdgeInsets.only(bottom: 6),
-      child: Text(
-        title,
-        style: const TextStyle(
-          color: Color(0xFF007F93),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _tableHeader() {
-  return Container(
-    padding: const EdgeInsets.all(8),
-    color: Color(0xFF007F93),
-    child: const Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        Expanded(
-          child: Text("Nama", style: TextStyle(color: Colors.white)),
-        ),
-        Expanded(
-          child: Text("Jumlah", style: TextStyle(color: Colors.white)),
-        ),
-        Expanded(
-          child: Text("Harga", style: TextStyle(color: Colors.white)),
-        ),
-        Expanded(
-          child: Text("Subtotal", style: TextStyle(color: Colors.white)),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _tableRow(String nama, String jumlah, String harga, String subtotal) {
-  return Container(
-    padding: const EdgeInsets.all(8),
-    decoration: const BoxDecoration(
-      border: Border(bottom: BorderSide(color: Colors.grey)),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(child: Text(nama)),
-        Expanded(child: Text(jumlah)),
-        Expanded(child: Text(harga)),
-        Expanded(child: Text(subtotal)),
-      ],
-    ),
-  );
 }

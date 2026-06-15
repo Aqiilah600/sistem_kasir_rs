@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../../models/rekapitulasi_model.dart';
 import 'widgets/welcome_admin_card.dart';
-// import 'widgets/section_header.dart';
-// import 'widgets/transaction_item.dart';
+import 'widgets/kelola_layanan_card.dart';
+import 'widgets/stat_card_rekapitulasi.dart';
 
 class HomeAdminView extends StatelessWidget {
   const HomeAdminView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> transactions = [];
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-
         title: Image.asset("assets/logo_rs2.png", height: 30),
-
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -28,7 +24,6 @@ class HomeAdminView extends StatelessWidget {
           ),
         ],
       ),
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -36,63 +31,62 @@ class HomeAdminView extends StatelessWidget {
           children: [
             // ✅ WELCOME CARD
             const WelcomeAdminCard(),
-
-            const SizedBox(height: 20),
-
-            // ✅ SECTION TITLE
-            const Text(
-              "Rekapitulasi Layanan Hari Ini",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-            ),
-
             const SizedBox(height: 16),
 
-            // 🔥 NANTI: taruh stat card di sini
-            const SizedBox(height: 20),
+            // ✅ KELOLA LAYANAN CARD
+            const KelolaLayananCard(),
+            const SizedBox(height: 24),
 
-            // ✅ TRANSAKSI
-            if (transactions.isEmpty)
-              const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    "Belum ada transaksi",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ),
-              )
-            else
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: transactions.length,
-                itemBuilder: (context, index) {
-                  final trx = transactions[index];
-
-                  // ⚠️ WAJIB return widget
-                  return ListTile(
-                    title: Text(trx['nama'] ?? '-'),
-                    subtitle: Text(trx['tanggal'] ?? '-'),
-                  );
-                },
+            // ✅ REKAPITULASI LAYANAN HARI INI
+            const Text(
+              'Rekapitulasi Layanan Hari Ini',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
               ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: rekapitulasiHariIni
+                  .map((data) => StatCardRekapitulasi(data: data))
+                  .toList(),
+            ),
+            const SizedBox(height: 24),
+
+            // ✅ REKAPITULASI LAYANAN BULANAN
+            const Text(
+              'Rekapitulasi Layanan Bulanan',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.teal,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: rekapitulasiBulanan
+                  .map((data) => StatCardRekapitulasi(data: data))
+                  .toList(),
+            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
-
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.teal,
+        currentIndex: 0,
+        selectedItemColor: Color(0xFF005461),
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: "Laporan Transaksi",
+            icon: Icon(Icons.receipt),
+            label: 'Laporan Transaksi',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.people),
-            label: "Kelola Akun",
+            label: 'Kelola Akun',
           ),
         ],
       ),

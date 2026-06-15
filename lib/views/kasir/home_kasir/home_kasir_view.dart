@@ -28,25 +28,6 @@ class _HomeKasirViewState extends State<HomeKasirView> {
     _loadDashboardData();
   }
 
-  // ============================================================
-  // Pemuatan data dashboard.
-  //
-  // Saat ini menggunakan data dummy dari dashboard_model.dart.
-  // Saat API tersedia, ganti isi method ini misalnya:
-  //
-  //   setState(() => isLoading = true);
-  //   final res = await api.get('/kasir/dashboard');
-  //   setState(() {
-  //     statistik = DashboardStatistik.fromJson(res.data['statistik']);
-  //     pendapatanMingguan = (res.data['pendapatan'] as List)
-  //         .map((e) => PendapatanHarian.fromJson(e))
-  //         .toList();
-  //     statistikLayanan = (res.data['layanan'] as List)
-  //         .map((e) => LayananStatistik.fromJson(e))
-  //         .toList();
-  //     isLoading = false;
-  //   });
-  // ============================================================
   void _loadDashboardData() {
     statistik = getDummyDashboardStatistik();
     pendapatanMingguan = getDummyPendapatanMingguan();
@@ -62,42 +43,38 @@ class _HomeKasirViewState extends State<HomeKasirView> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                // Fixed top area: welcome, title, stat cards
+                // FIXED TOP AREA — dikecilkan agar grafik di bawah terlihat
                 Container(
                   color: Colors.transparent,
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const WelcomeCard(),
-                      const SizedBox(height: 4),
+                      // WELCOME CARD — dikecilkan via constraints
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxHeight: 120),
+                        child: const WelcomeCard(),
+                      ),
+                      const SizedBox(height: 10),
+
+                      // JUDUL — font lebih kecil
                       const Text(
                         'Rekapitulasi Layanan Hari Ini',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 12,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF006473),
                         ),
                       ),
                       const SizedBox(height: 6),
-                      SizedBox(
-                        height: 112,
+
+                      // STAT CARDS — IntrinsicHeight agar tinggi menyesuaikan konten
+                      IntrinsicHeight(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.20),
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
+                              child: _buildStatCardWrapper(
                                 child: StatCard(
                                   title: 'Total Pendapatan',
                                   value: formatRupiah(
@@ -108,20 +85,9 @@ class _HomeKasirViewState extends State<HomeKasirView> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 8),
                             Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.20),
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
+                              child: _buildStatCardWrapper(
                                 child: StatCard(
                                   title: 'Jumlah Transaksi',
                                   value:
@@ -131,20 +97,9 @@ class _HomeKasirViewState extends State<HomeKasirView> {
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 8),
                             Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.20),
-                                      blurRadius: 3,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
+                              child: _buildStatCardWrapper(
                                 child: StatCard(
                                   title: 'Jumlah Pasien',
                                   value: '${statistik.jumlahPasien} Pasien',
@@ -160,13 +115,12 @@ class _HomeKasirViewState extends State<HomeKasirView> {
                   ),
                 ),
 
-                // Scrollable content below
+                // SCROLLABLE — grafik & tabel
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     child: Column(
                       children: [
-                        const SizedBox(height: 8),
                         PendapatanChart(data: pendapatanMingguan),
                         const SizedBox(height: 10),
                         StatistikLayananTable(data: statistikLayanan),
@@ -178,6 +132,23 @@ class _HomeKasirViewState extends State<HomeKasirView> {
               ],
             ),
       bottomNavigationBar: const KasirBottomNavbar(currentIndex: 0),
+    );
+  }
+
+  Widget _buildStatCardWrapper({required Widget child}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.12),
+            blurRadius: 4,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 }

@@ -5,69 +5,58 @@ class WelcomeAdminCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-        height: 160,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              const Color(0xFF3BC1A8),
-              const Color(0xFF007F93),
-              const Color(0xFF005461),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF000000).withOpacity(0.2),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
-            ),
-          ],
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [Color(0xFF3BC1A8), Color(0xFF007F93), Color(0xFF005461)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Row(
-              children: [
-                const SizedBox(width: 110),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      SizedBox(height: 12),
-                      Text(
-                        "Halo, Admin!\nSiap Bertugas Hari Ini?",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Pantau transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.",
-                        style: TextStyle(color: Colors.white70, fontSize: 10),
-                      ),
-                    ],
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF000000).withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // TEKS — diberi margin kiri agar tidak tertimpa gambar dokter
+          Padding(
+            padding: const EdgeInsets.only(left: 100),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Text(
+                  'Halo, Admin!\nSelamat datang di Sistem Admin',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
                   ),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  'Pantau Transaksi hari ini dan kelola penjualan dengan lebih mudah dan cepat.',
+                  style: TextStyle(color: Colors.white70, fontSize: 11),
                 ),
               ],
             ),
+          ),
 
-            // 🔥 TAMBAHKAN INI
-            Positioned(
-              bottom: -16,
-              top: -30,
-              left: -18,
-              child: Image.asset("assets/dokter_card.png", height: 150),
-            ),
-          ],
-        ),
+          // GAMBAR DOKTER
+          Positioned(
+            bottom: -12,
+            top: -20,
+            left: -16,
+            child: Image.asset('assets/dokter_card.png', height: 120),
+          ),
+        ],
       ),
     );
   }
