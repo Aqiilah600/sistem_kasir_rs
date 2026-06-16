@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/antrian_model.dart';
+import '../../models/antrian_model.dart';
 import 'widgets/antrian_list_item.dart';
 import 'widgets/detail_antrian_dialog.dart';
 import 'widgets/panggil_ulang_dialog.dart';

@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/transaksi/widgets/transaksi_data_pasien.dart
 
 import 'package:flutter/material.dart';
-import '../../../../models/transaksi_model.dart';
+import '../../../models/transaksi_model.dart';
 import '../../../../utils/formatter.dart';
 
 class TransaksiDataPasien extends StatelessWidget {

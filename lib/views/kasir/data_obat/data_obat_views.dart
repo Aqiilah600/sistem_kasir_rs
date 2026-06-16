@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/data_obat/data_obat_view.dart
 
 import 'package:flutter/material.dart';
-import '../../../models/obat_model.dart';
+import '../../models/obat_model.dart';
 import '../../../services/obat_services.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import '../widgets/kasir_header.dart';

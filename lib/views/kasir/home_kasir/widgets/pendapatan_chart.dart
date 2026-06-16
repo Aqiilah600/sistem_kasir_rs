@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:fl_chart/fl_chart.dart';
-import '../../../../models/dashboard_model.dart';
+import '../../../models/dashboard_model.dart';
 import '../../../../utils/formatter.dart';
 
 /// Card berisi grafik garis "Pendapatan (Rp)" per tanggal.

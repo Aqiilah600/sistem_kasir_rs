@@ -1,84 +1,92 @@
 import 'package:flutter/material.dart';
-import '../../../../models/dashboard_model.dart';
+import '../../../models/dashboard_model.dart';
 
 class StatCardRekapitulasi extends StatelessWidget {
   final DashboardStatistik data;
   final IconData icon;
+  final String label; // ← TAMBAH: Label dynamic
+  final String value; // ← TAMBAH: Value dynamic
 
   const StatCardRekapitulasi({
     super.key,
     required this.data,
     required this.icon,
+    required this.label,
+    required this.value,
   });
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 400;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      // FIXED HEIGHT untuk semua card sama rata
+      height: isSmallScreen ? 125 : 120,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withAlpha((0.25 * 255).round()),
+            blurRadius: 3,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // ICON - CIRCULAR
           Container(
-            width: 44,
-            height: 44,
+            width: 28,
+            height: 28,
             decoration: BoxDecoration(
               color: const Color(0xFF005461).withOpacity(0.15),
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: Icon(icon, color: const Color(0xFF005461), size: 24),
+            child: Icon(icon, color: const Color(0xFF005461), size: 20),
           ),
-          const SizedBox(height: 12),
 
-          // LABEL
+          // LABEL (DYNAMIC)
           Text(
-            'Total Pendapatan',
+            label,
             style: const TextStyle(
               fontSize: 11,
               color: Colors.black87,
               fontWeight: FontWeight.w500,
-              height: 1.3,
+              height: 0,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 8),
 
-          // VALUE
+          // VALUE (DYNAMIC)
           Text(
-            'Rp ${data.totalPendapatan.toStringAsFixed(0)}',
+            value,
             style: const TextStyle(
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF005461),
-              height: 1.2,
+              color: Colors.teal,
+              height: 0,
             ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          const SizedBox(height: 4),
 
           // SUBTITLE
-          Text(
-            '${data.jumlahTransaksi} transaksi • ${data.jumlahPasien} pasien',
-            style: const TextStyle(
-              fontSize: 10,
+          const Text(
+            'hari ini',
+            style: TextStyle(
+              fontSize: 9,
               color: Colors.grey,
               fontWeight: FontWeight.w400,
             ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

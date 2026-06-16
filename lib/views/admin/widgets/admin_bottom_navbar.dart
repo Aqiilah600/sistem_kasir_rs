@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../home_admin/home_admin_view.dart';
+import '../kelola_akun/kelola_akun_view.dart';
 // import '../Laporan_transaksi/laporan_transaski_view.dart';
 
 class AdminBottomNavbar extends StatelessWidget {
@@ -37,7 +38,7 @@ class AdminBottomNavbar extends StatelessWidget {
         } else if (index == 1) {
           //_pushReplacementNoAnimation(context, const LaporanTransaksiView());
         } else if (index == 2) {
-          //_pushReplacementNoAnimation(context, const KelolaAkunView());
+          _pushReplacementNoAnimation(context, const KelolaAkunView());
         }
       },
       items: const [

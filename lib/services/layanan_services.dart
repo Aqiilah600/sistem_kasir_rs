@@ -6,7 +6,7 @@
 // (return type Future<List<Layanan>>, dst) dibuat agar TIDAK PERLU
 // mengubah kode di DataLayananView nantinya.
 
-import '../models/layanan_model.dart';
+import '../views/models/layanan_model.dart';
 
 class LayananService {
   /// Ambil seluruh data layanan.

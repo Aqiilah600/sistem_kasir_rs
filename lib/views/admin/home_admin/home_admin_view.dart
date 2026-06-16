@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../models/dashboard_model.dart';
+import '../../models/dashboard_model.dart';
 import '../widgets/admin_header.dart';
 import '../widgets/admin_bottom_navbar.dart';
-// menggunakan custom admin header dan bottom navbar
 import 'widgets/welcome_admin_card.dart';
 import 'widgets/kelola_layanan_card.dart';
 import 'widgets/stat_card_rekapitulasi.dart';
@@ -28,6 +27,40 @@ class HomeAdminView extends StatelessWidget {
     Icons.people, // Jumlah Pasien
   ];
 
+  // LABEL MAPPING - untuk setiap card
+  final List<String> labelRekapitulasi = const [
+    'Total Pendapatan',
+    'Jumlah Transaksi',
+    'Jumlah Pasien',
+  ];
+
+  // Helper function untuk get value berdasarkan index
+  String _getValue(DashboardStatistik data, int index) {
+    switch (index) {
+      case 0: // Total Pendapatan
+        return 'Rp ${_formatRupiah(data.totalPendapatan)}';
+      case 1: // Jumlah Transaksi
+        return '${data.jumlahTransaksi} Transaksi';
+      case 2: // Jumlah Pasien
+        return '${data.jumlahPasien} Pasien';
+      default:
+        return '-';
+    }
+  }
+
+  String _formatRupiah(num value) {
+    final digits = value.toStringAsFixed(0).split('').reversed.toList();
+    final chunks = <String>[];
+    for (var i = 0; i < digits.length; i += 3) {
+      chunks.add(digits.skip(i).take(3).join());
+    }
+    return chunks
+        .map((chunk) => chunk.split('').reversed.join())
+        .toList()
+        .reversed
+        .join('.');
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -49,11 +82,11 @@ class HomeAdminView extends StatelessWidget {
               const WelcomeAdminCard(),
               SizedBox(height: isSmallScreen ? 12 : 16),
 
-              //KELOLA LAYANAN CARD
+              // KELOLA LAYANAN CARD
               const KelolaLayananCard(),
               SizedBox(height: isSmallScreen ? 20 : 24),
 
-              //REKAPITULASI LAYANAN HARI INI
+              // REKAPITULASI LAYANAN HARI INI
               Text(
                 'Rekapitulasi Layanan Hari Ini',
                 style: TextStyle(
@@ -63,7 +96,9 @@ class HomeAdminView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: isSmallScreen ? 10 : 12),
+              // ROW DENGAN LABEL & VALUE YANG TEPAT
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(
                   rekapitulasiHariIni.length,
                   (index) => Expanded(
@@ -76,6 +111,11 @@ class HomeAdminView extends StatelessWidget {
                       child: StatCardRekapitulasi(
                         data: rekapitulasiHariIni[index],
                         icon: iconRekapitulasi[index],
+                        label: labelRekapitulasi[index], // ← LABEL DYNAMIC
+                        value: _getValue(
+                          rekapitulasiHariIni[index],
+                          index,
+                        ), // ← VALUE DYNAMIC
                       ),
                     ),
                   ),
@@ -83,7 +123,7 @@ class HomeAdminView extends StatelessWidget {
               ),
               SizedBox(height: isSmallScreen ? 20 : 24),
 
-              //REKAPITULASI LAYANAN BULANAN
+              // REKAPITULASI LAYANAN BULANAN
               Text(
                 'Rekapitulasi Layanan Bulanan',
                 style: TextStyle(
@@ -93,7 +133,9 @@ class HomeAdminView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: isSmallScreen ? 10 : 12),
+              // ROW DENGAN LABEL & VALUE YANG TEPAT
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(
                   rekapitulasiBulanan.length,
                   (index) => Expanded(
@@ -106,6 +148,11 @@ class HomeAdminView extends StatelessWidget {
                       child: StatCardRekapitulasi(
                         data: rekapitulasiBulanan[index],
                         icon: iconRekapitulasi[index],
+                        label: labelRekapitulasi[index], // ← LABEL DYNAMIC
+                        value: _getValue(
+                          rekapitulasiBulanan[index],
+                          index,
+                        ), // ← VALUE DYNAMIC
                       ),
                     ),
                   ),

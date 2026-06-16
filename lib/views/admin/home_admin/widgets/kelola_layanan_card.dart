@@ -9,11 +9,11 @@ class KelolaLayananCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: const Color(0xFFF0F8F5),
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withAlpha((0.08 * 255).round()),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -26,7 +26,7 @@ class KelolaLayananCard extends StatelessWidget {
             width: 70,
             height: 70,
             decoration: BoxDecoration(
-              color: const Color(0xFF3AC0A8).withOpacity(0.2),
+              color: const Color(0xFF3AC0A8).withAlpha((0.2 * 255).round()),
               borderRadius: BorderRadius.circular(14),
             ),
             alignment: Alignment.center,
@@ -45,7 +45,7 @@ class KelolaLayananCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Kelola Layanan dengan\nMudah',
+                  'Kelola Layanan dengan Mudah',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
@@ -71,14 +71,10 @@ class KelolaLayananCard extends StatelessWidget {
 
           // ADD ICON BUTTON
           Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: const Color(0xFF3AC0A8).withOpacity(0.15),
-              borderRadius: BorderRadius.circular(10),
-            ),
+            width: 80,
+            height: 80,
             alignment: Alignment.center,
-            child: const Icon(Icons.add, color: Color(0xFF3AC0A8), size: 24),
+            child: Image.asset('assets/papancatatan.png', fit: BoxFit.contain),
           ),
         ],
       ),

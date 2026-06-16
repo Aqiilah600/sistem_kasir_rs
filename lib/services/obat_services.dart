@@ -5,7 +5,7 @@
 // signature (Future<List<Obat>>) dibuat agar tidak perlu mengubah
 // kode di DataObatView nantinya.
 
-import '../models/obat_model.dart';
+import '../views/models/obat_model.dart';
 
 class ObatService {
   /// Ambil seluruh data obat.
