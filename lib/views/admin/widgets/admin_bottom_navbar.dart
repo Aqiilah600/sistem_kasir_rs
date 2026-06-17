@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../home_admin/home_admin_view.dart';
 import '../kelola_akun/kelola_akun_view.dart';
-// import '../Laporan_transaksi/laporan_transaski_view.dart';
+import '../Laporan_transaksi/laporan_transaski_view.dart';
 
 class AdminBottomNavbar extends StatelessWidget {
   final int currentIndex;
@@ -36,7 +36,7 @@ class AdminBottomNavbar extends StatelessWidget {
         if (index == 0) {
           _pushReplacementNoAnimation(context, const HomeAdminView());
         } else if (index == 1) {
-          //_pushReplacementNoAnimation(context, const LaporanTransaksiView());
+          _pushReplacementNoAnimation(context, const LaporanTransaksiView());
         } else if (index == 2) {
           _pushReplacementNoAnimation(context, const KelolaAkunView());
         }

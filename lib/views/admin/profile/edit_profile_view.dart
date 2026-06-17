@@ -35,7 +35,7 @@ class _EditProfileViewState extends State<EditProfileView> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage("assets/pfp_admin.png"),
+                  backgroundImage: AssetImage("assets/pfp/pfp_admin.png"),
                 ),
                 Container(
                   padding: const EdgeInsets.all(6),

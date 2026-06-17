@@ -11,6 +11,42 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  bool isLoading = false;
+
+  Future<void> _login() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email dan password wajib diisi")),
+      );
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (email == "admin" && password == "12345") {
+      Navigator.pushReplacementNamed(context, "/home_admin");
+    } else if (email == "kasir" && password == "1234") {
+      Navigator.pushReplacementNamed(context, "/home_kasir");
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Login gagal")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +73,11 @@ class _LoginViewState extends State<LoginView> {
                 // gradient overlay
                 Container(
                   height: 340,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        Colors.white.withOpacity(0.0),
-                        Colors.white.withOpacity(1.0),
+                        Color.fromRGBO(255, 255, 255, 0.0),
+                        Color.fromRGBO(255, 255, 255, 1.0),
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -266,45 +302,17 @@ class _LoginViewState extends State<LoginView> {
                           end: Alignment.centerRight,
                         ),
 
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
-                            color: Color(0xFF08828A).withOpacity(0.3),
+                            color: Color.fromRGBO(8, 130, 138, 0.3),
                             blurRadius: 6,
-                            offset: const Offset(0, 4),
+                            offset: Offset(0, 4),
                           ),
                         ],
                       ),
 
                       child: ElevatedButton.icon(
-                        onPressed: () {
-                          String email = emailController.text;
-                          String password = passwordController.text;
-
-                          if (email.isEmpty || password.isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Email dan password wajib diisi"),
-                              ),
-                            );
-                            return;
-                          }
-
-                          if (email == "admin" && password == "12345") {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              "/home_admin",
-                            );
-                          } else if (email == "kasir" && password == "1234") {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              "/home_kasir",
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Login gagal")),
-                            );
-                          }
-                        },
+                        onPressed: () => _login(),
 
                         icon: const Icon(Icons.login, color: Colors.white),
 

@@ -112,6 +112,7 @@ class _DataLayananViewState extends State<DataLayananView> {
         currentIndex: 3,
         isLainnyaPage: true,
       ),
+      backgroundColor: Colors.grey[100], // Disamakan dengan data obat
       body: Column(
         children: [
           // HEADER

@@ -28,7 +28,7 @@ class KasirHeader extends StatelessWidget implements PreferredSizeWidget {
             },
 
             child: const CircleAvatar(
-              backgroundImage: AssetImage("assets/pfp_kasir.png"),
+              backgroundImage: AssetImage("assets/pfp/pfp_kasir.png"),
             ),
           ),
         ),

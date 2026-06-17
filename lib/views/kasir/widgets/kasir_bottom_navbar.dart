@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../home_kasir/home_kasir_view.dart';
 import '../antrian/antrian_view.dart';
 import '../transaksi/transaksi_view.dart';
+import '../r_transaksi/r_transaksi_view.dart' as riwayat;
 import '../data_obat/data_obat_views.dart';
 import '../data_layanan/data_layanan_view.dart';
 
@@ -96,7 +97,11 @@ class KasirBottomNavbar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.pop(context);
-                _pushReplacementNoAnimation(context, const TransaksiView());
+                // Menggunakan riwayat.TransaksiView() agar tidak bentrok dengan Transaksi Utama
+                _pushReplacementNoAnimation(
+                  context,
+                  const riwayat.TransaksiView(),
+                );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -106,10 +111,10 @@ class KasirBottomNavbar extends StatelessWidget {
                     width: 32,
                     height: 32,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(
+                      return const Icon(
                         Icons.history,
                         size: 32,
-                        color: const Color(0xFF005461),
+                        color: Color(0xFF005461),
                       );
                     },
                   ),

@@ -1,6 +1,80 @@
 // Lokasi: lib/models/transaksi_model.dart
 import 'obat_model.dart';
 
+class Transaction {
+  final String id;
+  final String keterangan; // "Total Transaksi", "Pendapatan Obat", dll
+  final double jumlah;
+  final DateTime tanggal;
+  final String kategori; // "transaksi", "obat", "layanan"
+
+  Transaction({
+    required this.id,
+    required this.keterangan,
+    required this.jumlah,
+    required this.tanggal,
+    required this.kategori,
+  });
+}
+
+// Dummy data transaksi
+List<Transaction> getDummyTransactions() {
+  return [
+    Transaction(
+      id: '1',
+      keterangan: 'Total Transaksi',
+      jumlah: 80000,
+      tanggal: DateTime(2026, 1, 5),
+      kategori: 'transaksi',
+    ),
+    Transaction(
+      id: '2',
+      keterangan: 'Pendapatan Obat',
+      jumlah: 90000,
+      tanggal: DateTime(2026, 1, 10),
+      kategori: 'obat',
+    ),
+    Transaction(
+      id: '3',
+      keterangan: 'Pendapatan Layanan',
+      jumlah: 120000,
+      tanggal: DateTime(2026, 1, 15),
+      kategori: 'layanan',
+    ),
+    Transaction(
+      id: '4',
+      keterangan: 'Total Pendapatan',
+      jumlah: 100000,
+      tanggal: DateTime(2026, 1, 20),
+      kategori: 'pendapatan',
+    ),
+    Transaction(
+      id: '5',
+      keterangan: 'Total Transaksi',
+      jumlah: 75000,
+      tanggal: DateTime(2026, 1, 25),
+      kategori: 'transaksi',
+    ),
+    Transaction(
+      id: '6',
+      keterangan: 'Pendapatan Obat',
+      jumlah: 85000,
+      tanggal: DateTime(2026, 1, 28),
+      kategori: 'obat',
+    ),
+  ];
+}
+
+// Helper untuk format currency
+String formatCurrency(double value) {
+  return 'Rp ${(value).toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match.group(1)}.')}';
+}
+
+// Helper untuk format date
+String formatDate(DateTime date) {
+  return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+}
+
 class ItemObat {
   final String nama;
   final int jumlah;
