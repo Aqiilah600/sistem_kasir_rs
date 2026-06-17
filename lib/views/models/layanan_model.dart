@@ -57,8 +57,6 @@ IconData iconFromName(String name) {
       return Icons.favorite;
     case 'mata':
       return Icons.visibility;
-    case 'anak':
-      return Icons.child_care;
     case 'umum':
       return Icons.local_hospital;
     default:
@@ -100,15 +98,6 @@ final List<Layanan> dummyLayanan = [
   ),
   Layanan(
     idLayanan: 4,
-    nama: 'Konsultasi Anak',
-    iconName: 'anak',
-    aktif: false,
-    tarifDokter: 120000,
-    tarifPerawat: 55000,
-    kategori: 'Poli Anak',
-  ),
-  Layanan(
-    idLayanan: 5,
     nama: 'Pemeriksaan Umum',
     iconName: 'umum',
     aktif: true,

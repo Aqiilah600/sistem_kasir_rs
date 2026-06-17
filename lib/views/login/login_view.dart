@@ -36,9 +36,9 @@ class _LoginViewState extends State<LoginView> {
       isLoading = false;
     });
 
-    if (email == "admin" && password == "12345") {
+    if (email == "MahalaniAulia30@gmail.com" && password == "12345") {
       Navigator.pushReplacementNamed(context, "/home_admin");
-    } else if (email == "kasir" && password == "1234") {
+    } else if (email == "MutiaAmelia@kasir.com" && password == "1234") {
       Navigator.pushReplacementNamed(context, "/home_kasir");
     } else {
       ScaffoldMessenger.of(
