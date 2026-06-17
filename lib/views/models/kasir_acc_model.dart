@@ -44,7 +44,7 @@ List<KasirAccount> getDummyKasirAccounts() {
       username: 'Kasir Mutia Amalia',
       email: 'mutiaamelia@kasir.com',
       password: 'MutiaCantikmup',
-      photoUrl: 'assets/pfp_kasir_1.png',
+      photoUrl: 'assets/pfp/kasir1.png',
     ),
     KasirAccount(
       id: '2',
@@ -52,7 +52,7 @@ List<KasirAccount> getDummyKasirAccounts() {
       username: 'Kasir Ayu Ningsih',
       email: 'ayuningsih@kasir.com',
       password: 'MelindaAyu123',
-      photoUrl: 'assets/pfp_kasir_2.png',
+      photoUrl: 'assets/pfp/kasir2.png',
     ),
     KasirAccount(
       id: '3',
@@ -60,7 +60,7 @@ List<KasirAccount> getDummyKasirAccounts() {
       username: 'Kasir Anjani Drisana',
       email: 'Anjani.Drisana@kasir.com',
       password: 'DrisanaAnjani456',
-      photoUrl: 'assets/pfp_kasir_3.png',
+      photoUrl: 'assets/pfp/kasir3.png',
     ),
   ];
 }

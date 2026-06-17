@@ -26,7 +26,11 @@ class DetailTransaksiDialog extends StatelessWidget {
                       color: Color(0xFFEBF7F7),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.assignment_outlined, color: Color(0xFF007A87), size: 20),
+                    child: const Icon(
+                      Icons.assignment_outlined,
+                      color: Color(0xFF007A87),
+                      size: 20,
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -35,18 +39,28 @@ class DetailTransaksiDialog extends StatelessWidget {
                       children: [
                         const Text(
                           'Detail Transaksi',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFE2F7E2),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: const Text(
                             'Lunas',
-                            style: TextStyle(color: Colors.green, fontSize: 9, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
@@ -55,7 +69,7 @@ class DetailTransaksiDialog extends StatelessWidget {
                   IconButton(
                     onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close, color: Colors.grey, size: 20),
-                  )
+                  ),
                 ],
               ),
               const Divider(height: 20),
@@ -73,10 +87,26 @@ class DetailTransaksiDialog extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   childAspectRatio: 2.5,
                   children: [
-                    _buildMetaItem(Icons.receipt_outlined, 'No Invoice', transaksi['invoice']),
-                    _buildMetaItem(Icons.people_outline, 'Pasien', transaksi['pasien']),
-                    _buildMetaItem(Icons.calendar_month_outlined, 'Tanggal', transaksi['tanggal']),
-                    _buildMetaItem(Icons.account_balance_wallet_outlined, 'Metpay', transaksi['metode']),
+                    _buildMetaItem(
+                      Icons.receipt_outlined,
+                      'No Invoice',
+                      transaksi['invoice'],
+                    ),
+                    _buildMetaItem(
+                      Icons.people_outline,
+                      'Pasien',
+                      transaksi['pasien'],
+                    ),
+                    _buildMetaItem(
+                      Icons.calendar_month_outlined,
+                      'Tanggal',
+                      transaksi['tanggal'],
+                    ),
+                    _buildMetaItem(
+                      Icons.account_balance_wallet_outlined,
+                      'Metpay',
+                      transaksi['metode'],
+                    ),
                   ],
                 ),
               ),
@@ -97,7 +127,10 @@ class DetailTransaksiDialog extends StatelessWidget {
               const SizedBox(height: 16),
 
               // 2. DAFTAR LAYANAN (Seksi Tabel Kedua)
-              _buildSectionHeader(Icons.medical_services_outlined, 'Daftar Layanan'),
+              _buildSectionHeader(
+                Icons.medical_services_outlined,
+                'Daftar Layanan',
+              ),
               const SizedBox(height: 6),
               _buildTable(
                 headers: ['Nama Layanan', 'Jumlah', 'Tarif', 'Subtotal'],
@@ -122,24 +155,50 @@ class DetailTransaksiDialog extends StatelessWidget {
                       children: [
                         Icon(Icons.payment, size: 16, color: Colors.grey[600]),
                         const SizedBox(width: 6),
-                        const Text('Ringkasan Pembayaran', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11)),
+                        const Text(
+                          'Ringkasan Pembayaran',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 11,
+                          ),
+                        ),
                       ],
                     ),
                     const Divider(height: 16),
-                    _buildSummaryRow('Subtotal Obat', 'Rp 84.000', 'Dibayar', 'Rp 270.000'),
+                    _buildSummaryRow(
+                      'Subtotal Obat',
+                      'Rp 84.000',
+                      'Dibayar',
+                      'Rp 270.000',
+                    ),
                     const SizedBox(height: 4),
-                    _buildSummaryRow('Subtotal Layanan', 'Rp 180.000', 'Kembalian', 'Rp 6.000'),
+                    _buildSummaryRow(
+                      'Subtotal Layanan',
+                      'Rp 180.000',
+                      'Kembalian',
+                      'Rp 6.000',
+                    ),
                     const SizedBox(height: 8),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Total Bayar', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                        const Text(
+                          'Total Bayar',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
                         Text(
                           'Rp 264.000',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.teal[700]),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 13,
+                            color: Colors.teal[700],
+                          ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -151,13 +210,21 @@ class DetailTransaksiDialog extends StatelessWidget {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF007A87),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Tutup', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'Tutup',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -170,17 +237,28 @@ class DetailTransaksiDialog extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        CircleAvatar(radius: 12, backgroundColor: Colors.grey[100], child: Icon(icon, size: 12, color: Colors.grey[600])),
+        CircleAvatar(
+          radius: 12,
+          backgroundColor: Colors.grey[100],
+          child: Icon(icon, size: 12, color: Colors.grey[600]),
+        ),
         const SizedBox(width: 6),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(label, style: const TextStyle(fontSize: 9, color: Colors.grey)),
+              Text(
+                label,
+                style: const TextStyle(fontSize: 9, color: Colors.grey),
+              ),
               Text(
                 value,
-                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF005461)),
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF005461),
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -196,7 +274,14 @@ class DetailTransaksiDialog extends StatelessWidget {
       children: [
         Icon(icon, size: 14, color: const Color(0xFF007A87)),
         const SizedBox(width: 4),
-        Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF007A87))),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF007A87),
+          ),
+        ),
       ],
     );
   }
@@ -209,8 +294,10 @@ class DetailTransaksiDialog extends StatelessWidget {
     required String totalValue,
   }) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[200]!),
+        border: Border.all(color: Colors.white),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
@@ -218,35 +305,58 @@ class DetailTransaksiDialog extends StatelessWidget {
           // Row Header Tabel dengan Background Teal Gelap
           Container(
             decoration: const BoxDecoration(
-              color: Color(0xFF007A87),
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+              color: Color.fromARGB(255, 0, 122, 135),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+              ),
             ),
             padding: const EdgeInsets.all(6),
             child: Row(
-              children: headers.map((h) => Expanded(
-                child: Text(
-                  h,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 9),
-                ),
-              )).toList(),
+              children: headers
+                  .map(
+                    (h) => Expanded(
+                      child: Text(
+                        h,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 9,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           // Baris Isi Tabel
           Column(
-            children: rows.map((row) => Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[200]!))),
-              child: Row(
-                children: row.map((cell) => Expanded(
-                  child: Text(
-                    cell,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 10),
+            children: rows
+                .map(
+                  (row) => Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                    child: Row(
+                      children: row
+                          .map(
+                            (cell) => Expanded(
+                              child: Text(
+                                cell,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
-                )).toList(),
-              ),
-            )).toList(),
+                )
+                .toList(),
           ),
           // Total Baris Bawah Tabel
           Padding(
@@ -254,17 +364,36 @@ class DetailTransaksiDialog extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text('$totalLabel : ', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF007A87))),
-                Text(totalValue, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF007A87))),
+                Text(
+                  '$totalLabel : ',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF007A87),
+                  ),
+                ),
+                Text(
+                  totalValue,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF007A87),
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildSummaryRow(String labelLeft, String valueLeft, String labelRight, String valueRight) {
+  Widget _buildSummaryRow(
+    String labelLeft,
+    String valueLeft,
+    String labelRight,
+    String valueRight,
+  ) {
     return Row(
       children: [
         Expanded(
@@ -272,8 +401,17 @@ class DetailTransaksiDialog extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(labelLeft, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-              Text(valueLeft, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
+              Text(
+                labelLeft,
+                style: const TextStyle(fontSize: 10, color: Colors.grey),
+              ),
+              Text(
+                valueLeft,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),
@@ -283,8 +421,17 @@ class DetailTransaksiDialog extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(labelRight, style: const TextStyle(fontSize: 10, color: Colors.grey)),
-              Text(valueRight, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500)),
+              Text(
+                labelRight,
+                style: const TextStyle(fontSize: 10, color: Colors.grey),
+              ),
+              Text(
+                valueRight,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ],
           ),
         ),

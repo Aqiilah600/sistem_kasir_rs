@@ -19,10 +19,10 @@ class _ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    name = "Mutia Amelia";
-    email = "MutiaAmelia@kasir.com";
-    phone = "089512538888";
-    role = "Kasir";
+    name = "Mahalani Aulia";
+    email = "MahalaniAulia30@gmail.com";
+    phone = "089512538787";
+    role = "Admin Kasir";
   }
 
   @override
@@ -39,7 +39,7 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 const CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage("assets/pfp_kasir.png"),
+                  backgroundImage: AssetImage("assets/pfp/pfp_admin2.png"),
                 ),
                 Container(
                   padding: const EdgeInsets.all(6),

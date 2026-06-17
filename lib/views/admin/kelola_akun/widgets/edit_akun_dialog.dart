@@ -43,7 +43,7 @@ class _EditAkunDialogState extends State<EditAkunDialog> {
 
   String? _normalizePhotoUrl(String? url) {
     if (url == null || url.isEmpty) return null;
-    if (url.startsWith('assets/')) return null;
+    if (url.startsWith('assets/pfp/')) return null;
     return url;
   }
 
@@ -124,7 +124,7 @@ class _EditAkunDialogState extends State<EditAkunDialog> {
               TextField(
                 controller: namaController,
                 decoration: InputDecoration(
-                  hintText: 'Muti Amelia',
+                  hintText: 'Nama Kasir',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -145,7 +145,7 @@ class _EditAkunDialogState extends State<EditAkunDialog> {
               TextField(
                 controller: usernameController,
                 decoration: InputDecoration(
-                  hintText: 'Kasir Mutia Amelia',
+                  hintText: 'Username',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -167,7 +167,7 @@ class _EditAkunDialogState extends State<EditAkunDialog> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                  hintText: 'MutiaAmelia@kasir.com',
+                  hintText: 'Email',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -189,7 +189,7 @@ class _EditAkunDialogState extends State<EditAkunDialog> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'MutiaCantikImup',
+                  hintText: 'Password',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),

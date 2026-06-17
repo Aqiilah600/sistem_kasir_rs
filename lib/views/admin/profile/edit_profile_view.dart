@@ -9,16 +9,16 @@ class EditProfileView extends StatefulWidget {
 
 class _EditProfileViewState extends State<EditProfileView> {
   final TextEditingController nameController = TextEditingController(
-    text: "Mutia Amelia",
+    text: "Mahalani Aulia",
   );
   final TextEditingController emailController = TextEditingController(
-    text: "MutiaAmelia@kasir.com",
+    text: "MahalaniAulia30@gmail.com",
   );
   final TextEditingController phoneController = TextEditingController(
-    text: "089512538888",
+    text: "089512538787",
   );
   final TextEditingController roleController = TextEditingController(
-    text: "Kasir",
+    text: "Admin Kasir",
   );
 
   @override
