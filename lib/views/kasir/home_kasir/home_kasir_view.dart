@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../models/dashboard_model.dart';
-import '../../../utils/formatter.dart';
+import '../../../../models/dashboard_model.dart';
+import '../../../../utils/formatter.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import '../widgets/kasir_header.dart';
 import 'widgets/welcome_card.dart';

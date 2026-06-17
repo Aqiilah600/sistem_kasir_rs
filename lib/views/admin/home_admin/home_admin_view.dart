@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/dashboard_model.dart';
+import '../../../models/dashboard_model.dart';
 import '../widgets/admin_header.dart';
 import '../widgets/admin_bottom_navbar.dart';
 import 'widgets/welcome_admin_card.dart';

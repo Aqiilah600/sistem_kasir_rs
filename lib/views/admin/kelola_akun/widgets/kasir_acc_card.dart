@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/kasir_acc_model.dart';
+import '../../../../models/kasir_acc_model.dart';
 
 class KasirAccountCard extends StatelessWidget {
   final KasirAccount account;

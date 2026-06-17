@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/home_kasir/widgets/statistik_layanan_table.dart
 
 import 'package:flutter/material.dart';
-import '../../../models/dashboard_model.dart';
+import '../../../../models/dashboard_model.dart';
 import '../../../../utils/formatter.dart';
 
 class StatistikLayananTable extends StatelessWidget {

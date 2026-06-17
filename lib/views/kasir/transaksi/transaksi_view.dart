@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/transaksi/transaksi_view.dart
 
 import 'package:flutter/material.dart';
-import '../../models/transaksi_model.dart';
+import '../../../models/transaksi_model.dart';
 import '../../../services/transaksi_services.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import '../widgets/kasir_header.dart';

@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/data_layanan/data_layanan_view.dart
 
 import 'package:flutter/material.dart';
-import '../../models/layanan_model.dart';
+import '../../../models/layanan_model.dart';
 import '../../../services/layanan_services.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import '../widgets/kasir_header.dart';

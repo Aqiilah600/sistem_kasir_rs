@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/transaksi/widgets/transaksi_search.dart
 
 import 'package:flutter/material.dart';
-import '../../../models/transaksi_model.dart';
+import '../../../../models/transaksi_model.dart';
 
 class TransaksiSearch extends StatelessWidget {
   final TextEditingController controller;

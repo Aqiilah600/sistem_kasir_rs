@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/admin_header.dart';
 import '../widgets/admin_bottom_navbar.dart';
-import '../../models/kasir_acc_model.dart';
+import '../../../models/kasir_acc_model.dart';
 import 'widgets/welcome_card.dart';
 import 'widgets/kasir_acc_card.dart';
 import 'widgets/edit_akun_dialog.dart';

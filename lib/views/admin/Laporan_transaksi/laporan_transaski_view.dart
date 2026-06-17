@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/admin_header.dart';
 import '../widgets/admin_bottom_navbar.dart';
-import '../../models/transaksi_model.dart';
+import '../../../../models/transaksi_model.dart';
 import 'widgets/transaksi_summary_card.dart';
 import 'widgets/tabel_transaksi.dart';
 

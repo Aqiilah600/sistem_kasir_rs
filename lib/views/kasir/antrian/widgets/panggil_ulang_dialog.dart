@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/antrian_model.dart';
+import '../../../../models/antrian_model.dart';
 
 class PanggilUlangDialog extends StatelessWidget {
   final AntriItem item;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/dashboard_model.dart';
+import '../../../../models/dashboard_model.dart';
 
 class StatCardRekapitulasi extends StatelessWidget {
   final DashboardStatistik data;

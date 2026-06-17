@@ -19,6 +19,19 @@ class AntriItem {
     required this.idAntrian,
   });
 
+  factory AntriItem.fromJson(Map<String, dynamic> json) {
+    return AntriItem(
+      id: json['id'] ?? 0,
+      nomor: json['nomor'] ?? 0,
+      nama: json['nama'] ?? '',
+      poli: json['poli'] ?? '',
+      status: json['status'] ?? 'Menunggu',
+      waktuMasuk: json['waktu_masuk'] ?? '',
+      idTransaksi: json['id_transaksi'] ?? '',
+      idAntrian: json['id_antrian'] ?? 0,
+    );
+  }
+
   // Copy with untuk membuat instance baru dengan status berubah
   AntriItem copyWith({String? status}) {
     return AntriItem(

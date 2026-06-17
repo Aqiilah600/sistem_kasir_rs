@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/kasir_bottom_navbar.dart';
 import '../widgets/kasir_header.dart';
 import 'widgets/detail_transaksi_dialog.dart'; // Import pop-up dialog
-import '../../models/r_transaksi_model.dart';
+import '../../../models/r_transaksi_model.dart';
 
 class TransaksiView extends StatefulWidget {
   const TransaksiView({super.key});

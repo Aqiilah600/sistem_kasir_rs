@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../models/transaksi_model.dart';
+import '../../../../models/transaksi_model.dart';
 
 class TransactionSummaryCard extends StatelessWidget {
   final String label;

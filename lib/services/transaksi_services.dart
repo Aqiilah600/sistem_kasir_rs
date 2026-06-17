@@ -1,6 +1,6 @@
 // Lokasi: lib/services/transaksi_service.dart
 
-import '../views/models/transaksi_model.dart';
+import '../../../models/transaksi_model.dart';
 
 class TransaksiService {
   /// Cari transaksi berdasarkan nomor antrian.

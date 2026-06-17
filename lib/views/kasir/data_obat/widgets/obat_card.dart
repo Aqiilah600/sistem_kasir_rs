@@ -1,7 +1,7 @@
 // Lokasi: lib/views/kasir/data_obat/widgets/obat_card.dart
 
 import 'package:flutter/material.dart';
-import '../../../models/obat_model.dart';
+import '../../../../models/obat_model.dart';
 import '../../../../utils/formatter.dart';
 
 class ObatCard extends StatelessWidget {
