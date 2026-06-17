@@ -83,7 +83,7 @@ class _TransaksiViewState extends State<TransaksiView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                  'Riwayat Layanan',
+                  'Riwayat Transaksi',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 4),

@@ -100,14 +100,10 @@ class _SedangDilayaniCardState extends State<SedangDilayaniCard> {
             ),
           ),
           const SizedBox(width: 12),
+          const Spacer(),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _ActionButton(
-                icon: Icons.call,
-                label: 'Panggil\nUlang',
-                onPressed: () {},
-              ),
               const SizedBox(width: 8),
               _ActionButton(
                 icon: Icons.check_circle_outline,

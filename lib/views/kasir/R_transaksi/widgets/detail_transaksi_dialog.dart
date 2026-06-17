@@ -297,7 +297,7 @@ class DetailTransaksiDialog extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: Colors.grey[300]!),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
@@ -337,9 +337,7 @@ class DetailTransaksiDialog extends StatelessWidget {
                   (row) => Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: Colors.white),
-                      ),
+                      border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
                     ),
                     child: Row(
                       children: row
@@ -396,11 +394,16 @@ class DetailTransaksiDialog extends StatelessWidget {
   ) {
     return Row(
       children: [
+        
         Expanded(
+          
           flex: 5,
           child: Row(
+            
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
             children: [
+              
               Text(
                 labelLeft,
                 style: const TextStyle(fontSize: 10, color: Colors.grey),
