@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class WelcomeCard extends StatelessWidget {
   final bool isSmallScreen;
 
-  const WelcomeCard({Key? key, this.isSmallScreen = false}) : super(key: key);
+  const WelcomeCard({super.key, this.isSmallScreen = false});
 
   @override
   Widget build(BuildContext context) {

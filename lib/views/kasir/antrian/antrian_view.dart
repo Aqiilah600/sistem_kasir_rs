@@ -27,7 +27,8 @@ class _AntrianViewState extends State<AntrianView> {
   void initState() {
     super.initState();
     _initializeAntrian();
-    _loadSkippedAntrian(); // ambil data skip awal
+    _loadSkippedAntrian();
+    _loadSedangDilayani(); // ambil data skip awal
   }
 
   void _initializeAntrian() {
@@ -37,6 +38,44 @@ class _AntrianViewState extends State<AntrianView> {
       allAntrian[0] = sedangDilayani!;
     }
     _updateStatistik();
+  }
+
+  Future<void> _loadSedangDilayani() async {
+    try {
+      final result = await ApiSkipAntrian.getDaftarAntrian();
+      if (result['success']) {
+        final data = result['data'];
+        if (data is List) {
+          setState(() {
+            allAntrian = data.map((item) => AntriItem.fromJson(item)).toList();
+            sedangDilayani = allAntrian.firstWhere(
+              (e) => e.status == 'Sedang Dilayani',
+              orElse: () => allAntrian.firstWhere(
+                (e) => e.status == 'Menunggu',
+                orElse: () => AntriItem(
+                  id: 0,
+                  nomor: 0,
+                  nama: '',
+                  poli: '',
+                  status: '',
+                  waktuMasuk: '',
+                  idTransaksi: '',
+                  idAntrian: 0,
+                ),
+              ),
+            );
+            _updateStatistik();
+          });
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error loading sedang dilayani: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   void _updateStatistik() {
@@ -221,8 +260,9 @@ class _AntrianViewState extends State<AntrianView> {
     });
   }
 
-  void _panggilUlang(AntriItem item) {
+  void _panggilUlang(AntriItem item) async {
     setState(() {
+      isLoading = true;
       final index = allAntrian.indexWhere((e) => e.id == item.id);
       if (index != -1) {
         allAntrian[index] = allAntrian[index].copyWith(status: 'Menunggu');
@@ -238,7 +278,6 @@ class _AntrianViewState extends State<AntrianView> {
           semuaSelesai = false;
         }
       }
-
       _updateStatistik();
     });
   }
@@ -248,6 +287,7 @@ class _AntrianViewState extends State<AntrianView> {
     final daftarAntrian = allAntrian
         .where((item) => item.status != 'Dilewati')
         .toList();
+    final dilewati = skippedAntrian;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -430,7 +470,7 @@ class _AntrianViewState extends State<AntrianView> {
                           ],
 
                           // DILEWATI
-                          if (skippedAntrian.isNotEmpty) ...[
+                          if (dilewati.isNotEmpty) ...[
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -451,7 +491,7 @@ class _AntrianViewState extends State<AntrianView> {
                                     vertical: 5,
                                   ),
                                   child: Text(
-                                    '${skippedAntrian.length} Skip',
+                                    '${dilewati.length} Skip',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 11,
@@ -462,7 +502,7 @@ class _AntrianViewState extends State<AntrianView> {
                               ],
                             ),
                             const SizedBox(height: 10),
-                            ...skippedAntrian.map(
+                            ...dilewati.map(
                               (item) => AntriListItem(
                                 item: item,
                                 onDetailTap: () {

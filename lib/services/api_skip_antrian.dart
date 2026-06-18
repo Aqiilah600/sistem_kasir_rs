@@ -34,7 +34,7 @@ class ApiSkipAntrian {
   static Future<Map<String, dynamic>> getDaftarAntrian() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/antrian-pembayaran'),
+        Uri.parse('$baseUrl/antrian-pembayaran/sedang-dilayani'),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -48,6 +48,35 @@ class ApiSkipAntrian {
         return {
           'success': false,
           'message': 'Gagal mengambil daftar antrian: ${response.statusCode}',
+        };
+      }
+    } catch (e) {
+      return {'success': false, 'message': 'Error: $e'};
+    }
+  }
+
+  // Panggil ulang antrian
+  static Future<Map<String, dynamic>> panggilUlangAntrian(int id) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/antrian-pembayaran/$id/panggil'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return {
+          'success': true,
+          'data': data['data'],
+          'message': data['message'] ?? 'Pasien berhasil dipanggil',
+        };
+      } else {
+        return {
+          'success': false,
+          'message': 'Gagal panggil ulang antrian: ${response.statusCode}',
         };
       }
     } catch (e) {
