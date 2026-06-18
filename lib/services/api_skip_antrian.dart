@@ -1,111 +1,71 @@
-// lib/services/api_skip_antrian.dart
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+﻿import '../models/antrian_model.dart';
+import 'api_client.dart';
 
 class ApiSkipAntrian {
-  static const String baseUrl = 'http://kasir4b06.vps-poliban.my.id/api';
+  static const String baseUrl = ApiClient.baseUrl;
+  static const ApiClient _client = ApiClient();
 
-  // Skip antrian
-  static Future<Map<String, dynamic>> skipAntrian(int id) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/antrian-pembayaran/$id/skip'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      );
+  static Future<Map<String, dynamic>> getAntrianPembayaran() => getDaftarAntrian();
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return {'success': true, 'data': data};
-      } else {
-        return {
-          'success': false,
-          'message': 'Gagal skip antrian: ${response.statusCode}',
-        };
-      }
-    } catch (e) {
-      return {'success': false, 'message': 'Error: $e'};
-    }
-  }
-
-  // Get daftar antrian (semua)
   static Future<Map<String, dynamic>> getDaftarAntrian() async {
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/antrian-pembayaran/sedang-dilayani'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return {'success': true, 'data': data};
-      } else {
-        return {
-          'success': false,
-          'message': 'Gagal mengambil daftar antrian: ${response.statusCode}',
-        };
-      }
-    } catch (e) {
-      return {'success': false, 'message': 'Error: $e'};
-    }
+    return _wrap(() async {
+      final response = await _client.get('/antrian-pembayaran');
+      return ApiClient.unwrapData(response);
+    });
   }
 
-  // Panggil ulang antrian
-  static Future<Map<String, dynamic>> panggilUlangAntrian(int id) async {
-    try {
-      final response = await http.put(
-        Uri.parse('$baseUrl/antrian-pembayaran/$id/panggil'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return {
-          'success': true,
-          'data': data['data'],
-          'message': data['message'] ?? 'Pasien berhasil dipanggil',
-        };
-      } else {
-        return {
-          'success': false,
-          'message': 'Gagal panggil ulang antrian: ${response.statusCode}',
-        };
-      }
-    } catch (e) {
-      return {'success': false, 'message': 'Error: $e'};
-    }
+  static Future<Map<String, dynamic>> getSedangDilayani() async {
+    return _wrap(() async {
+      final response = await _client.get('/antrian-pembayaran/sedang-dilayani');
+      return ApiClient.unwrapData(response);
+    });
   }
 
-  // Get daftar antrian yang di-skip
   static Future<Map<String, dynamic>> getSkippedAntrian() async {
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/antrian-pembayaran/skip'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-      );
+    return _wrap(() async {
+      final response = await _client.get('/antrian-pembayaran/skip');
+      return ApiClient.unwrapData(response);
+    });
+  }
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return {'success': true, 'data': data};
-      } else {
-        return {
-          'success': false,
-          'message': 'Gagal mengambil daftar skip: ${response.statusCode}',
-        };
-      }
+  static Future<Map<String, dynamic>> getDetailAntrian(int id) async {
+    return _wrap(() async {
+      final response = await _client.get('/antrian-pembayaran/$id');
+      return ApiClient.unwrapData(response);
+    });
+  }
+
+  static Future<Map<String, dynamic>> panggilUlangAntrian(int id) => panggilAntrian(id);
+
+  static Future<Map<String, dynamic>> panggilAntrian(int id) async {
+    return _wrap(() async {
+      final response = await _client.put('/antrian-pembayaran/$id/panggil');
+      return ApiClient.unwrapData(response);
+    });
+  }
+
+  static Future<Map<String, dynamic>> skipAntrian(int id) async {
+    return _wrap(() async {
+      final response = await _client.put('/antrian-pembayaran/$id/skip');
+      return ApiClient.unwrapData(response);
+    });
+  }
+
+  static Future<Map<String, dynamic>> getStatistik() async {
+    return _wrap(() async {
+      final response = await _client.get('/antrian-pembayaran/statistik');
+      final data = ApiClient.unwrapData(response);
+      if (data is Map<String, dynamic>) return AntriStatistik.fromJson(data);
+      return data;
+    });
+  }
+
+  static Future<Map<String, dynamic>> _wrap(Future<dynamic> Function() action) async {
+    try {
+      final data = await action();
+      return {'success': true, 'data': data};
     } catch (e) {
-      return {'success': false, 'message': 'Error: $e'};
+      return {'success': false, 'message': e.toString()};
     }
   }
 }

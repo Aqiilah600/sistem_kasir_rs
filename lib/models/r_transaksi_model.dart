@@ -1,3 +1,6 @@
+﻿import '../services/pembayaran_service.dart' as pembayaran_api;
+import '../services/transaksi_services.dart' as transaksi_api;
+
 class RTransaksi {
   final String invoice;
   final String tanggal;
@@ -5,104 +8,51 @@ class RTransaksi {
   final String poli;
   final String metode;
 
-  RTransaksi({
-    required this.invoice,
-    required this.tanggal,
-    required this.pasien,
-    required this.poli,
-    required this.metode,
-  });
+  RTransaksi({required this.invoice, required this.tanggal, required this.pasien, required this.poli, required this.metode});
 
   factory RTransaksi.fromMap(Map<String, dynamic> data) {
     return RTransaksi(
-      invoice: data['invoice'] ?? '',
-      tanggal: data['tanggal'] ?? '',
-      pasien: data['pasien'] ?? '',
-      poli: data['poli'] ?? '',
-      metode: data['metode'] ?? '',
+      invoice: _text(data['invoice'] ?? data['no_invoice'] ?? data['id_pembayaran'] ?? data['id_transaksi']),
+      tanggal: _text(data['tanggal'] ?? data['tanggal_pembayaran'] ?? data['created_at']),
+      pasien: _text(data['pasien'] ?? data['nama_pasien'], fallback: '-'),
+      poli: _text(data['poli'] ?? data['nama_poli'], fallback: '-'),
+      metode: _text(data['metode'], fallback: '-'),
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'invoice': invoice,
-      'tanggal': tanggal,
-      'pasien': pasien,
-      'poli': poli,
-      'metode': metode,
-    };
-  }
+  Map<String, dynamic> toMap() => {'invoice': invoice, 'tanggal': tanggal, 'pasien': pasien, 'poli': poli, 'metode': metode};
 }
 
 class TransaksiService {
-  // Simulasi data dummy dari API
-  final List<Map<String, dynamic>> _dummyTransaksi = [
-    {
-      'invoice': 'INV-20260101-001',
-      'tanggal': '01/01/2026',
-      'pasien': 'Hafis Ridho',
-      'poli': 'Poli Anak',
-      'metode': 'Cash',
-    },
-    {
-      'invoice': 'INV-20260101-002',
-      'tanggal': '01/01/2026',
-      'pasien': 'Ayuning',
-      'poli': 'Poli Mata',
-      'metode': 'Cash',
-    },
-    {
-      'invoice': 'INV-20260101-003',
-      'tanggal': '01/01/2026',
-      'pasien': 'Nazwarni Aulia',
-      'poli': 'Poli Gigi',
-      'metode': 'Transfer',
-    },
-    {
-      'invoice': 'INV-20260101-004',
-      'tanggal': '02/01/2026',
-      'pasien': 'Muzakir',
-      'poli': 'Poli Gigi',
-      'metode': 'Transfer',
-    },
-    {
-      'invoice': 'INV-20260101-005',
-      'tanggal': '02/01/2026',
-      'pasien': 'Iki Jawir',
-      'poli': 'Poli Jantung',
-      'metode': 'Transfer',
-    },
-    {
-      'invoice': 'INV-20260101-006',
-      'tanggal': '04/01/2026',
-      'pasien': 'Budi Santoso',
-      'poli': 'Poli Dalam',
-      'metode': 'Transfer',
-    },
-  ];
+  final pembayaran_api.PembayaranService _pembayaranService = pembayaran_api.PembayaranService();
+  final transaksi_api.TransaksiService _transaksiService = transaksi_api.TransaksiService();
 
-  // Fungsi untuk mengambil semua data (bisa diganti http.get nanti)
   Future<List<RTransaksi>> getAllTransaksi() async {
-    await Future.delayed(
-      const Duration(milliseconds: 500),
-    ); // Simulasi delay network
-    return _dummyTransaksi.map((data) => RTransaksi.fromMap(data)).toList();
-  }
+    try {
+      final pembayaran = await _pembayaranService.getAll();
+      if (pembayaran.isNotEmpty) {
+        return pembayaran.map((e) => RTransaksi.fromMap(e.toJson())).toList();
+      }
+    } catch (_) {}
 
-  // Fungsi untuk pencarian data
-  Future<List<RTransaksi>> searchTransaksi(String query) async {
-    if (query.isEmpty) {
-      return _dummyTransaksi.map((data) => RTransaksi.fromMap(data)).toList();
+    try {
+      final transaksi = await _transaksiService.getAll();
+      return transaksi.map((e) => RTransaksi.fromMap(e.toJson())).toList();
+    } catch (_) {
+      return [];
     }
-
-    final results = _dummyTransaksi.where((item) {
-      final pasien = item['pasien'].toString().toLowerCase();
-      final invoice = item['invoice'].toString().toLowerCase();
-      final searchLower = query.toLowerCase();
-
-      return pasien.contains(searchLower) || invoice.contains(searchLower);
-    }).toList();
-
-    return results.map((data) => RTransaksi.fromMap(data)).toList();
   }
+
+  Future<List<RTransaksi>> searchTransaksi(String query) async {
+    final items = await getAllTransaksi();
+    if (query.isEmpty) return items;
+    final lower = query.toLowerCase();
+    return items.where((item) => item.pasien.toLowerCase().contains(lower) || item.invoice.toLowerCase().contains(lower)).toList();
+  }
+}
+
+String _text(dynamic value, {String fallback = ''}) {
+  final text = value?.toString();
+  if (text == null || text.isEmpty || text == 'null') return fallback;
+  return text;
 }

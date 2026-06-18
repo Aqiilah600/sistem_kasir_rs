@@ -1,79 +1,23 @@
-// Lokasi: lib/models/transaksi_model.dart
-import 'obat_model.dart';
+﻿import 'obat_model.dart';
 
 class Transaction {
   final String id;
-  final String keterangan; // "Total Transaksi", "Pendapatan Obat", dll
+  final String keterangan;
   final double jumlah;
   final DateTime tanggal;
-  final String kategori; // "transaksi", "obat", "layanan"
+  final String kategori;
 
-  Transaction({
-    required this.id,
-    required this.keterangan,
-    required this.jumlah,
-    required this.tanggal,
-    required this.kategori,
-  });
+  Transaction({required this.id, required this.keterangan, required this.jumlah, required this.tanggal, required this.kategori});
 }
 
-// Dummy data transaksi
-List<Transaction> getDummyTransactions() {
-  return [
-    Transaction(
-      id: '1',
-      keterangan: 'Total Transaksi',
-      jumlah: 80000,
-      tanggal: DateTime(2026, 1, 5),
-      kategori: 'transaksi',
-    ),
-    Transaction(
-      id: '2',
-      keterangan: 'Pendapatan Obat',
-      jumlah: 90000,
-      tanggal: DateTime(2026, 1, 10),
-      kategori: 'obat',
-    ),
-    Transaction(
-      id: '3',
-      keterangan: 'Pendapatan Layanan',
-      jumlah: 120000,
-      tanggal: DateTime(2026, 1, 15),
-      kategori: 'layanan',
-    ),
-    Transaction(
-      id: '4',
-      keterangan: 'Total Pendapatan',
-      jumlah: 100000,
-      tanggal: DateTime(2026, 1, 20),
-      kategori: 'pendapatan',
-    ),
-    Transaction(
-      id: '5',
-      keterangan: 'Total Transaksi',
-      jumlah: 75000,
-      tanggal: DateTime(2026, 1, 25),
-      kategori: 'transaksi',
-    ),
-    Transaction(
-      id: '6',
-      keterangan: 'Pendapatan Obat',
-      jumlah: 85000,
-      tanggal: DateTime(2026, 1, 28),
-      kategori: 'obat',
-    ),
-  ];
-}
+List<Transaction> getDummyTransactions() => [
+  Transaction(id: '1', keterangan: 'Total Transaksi', jumlah: 80000, tanggal: DateTime(2026, 1, 5), kategori: 'transaksi'),
+  Transaction(id: '2', keterangan: 'Pendapatan Obat', jumlah: 90000, tanggal: DateTime(2026, 1, 10), kategori: 'obat'),
+  Transaction(id: '3', keterangan: 'Pendapatan Layanan', jumlah: 120000, tanggal: DateTime(2026, 1, 15), kategori: 'layanan'),
+];
 
-// Helper untuk format currency
-String formatCurrency(double value) {
-  return 'Rp ${(value).toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match.group(1)}.')}';
-}
-
-// Helper untuk format date
-String formatDate(DateTime date) {
-  return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
-}
+String formatCurrency(double value) => 'Rp ${(value).toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (match) => '${match.group(1)}.')}';
+String formatDate(DateTime date) => '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
 
 class ItemObat {
   final String nama;
@@ -81,20 +25,15 @@ class ItemObat {
   final double harga;
 
   ItemObat({required this.nama, required this.jumlah, required this.harga});
-
   double get subtotal => jumlah * harga;
 
   factory ItemObat.fromJson(Map<String, dynamic> json) => ItemObat(
-    nama: json['nama'] as String,
-    jumlah: (json['jumlah'] as num).toInt(),
-    harga: (json['harga'] as num).toDouble(),
+    nama: _text(json['nama'] ?? json['nama_obat'], fallback: '-'),
+    jumlah: _int(json['jumlah']),
+    harga: _double(json['harga'] ?? json['harga_jual'] ?? json['total_harga']),
   );
 
-  Map<String, dynamic> toJson() => {
-    'nama': nama,
-    'jumlah': jumlah,
-    'harga': harga,
-  };
+  Map<String, dynamic> toJson() => {'nama': nama, 'jumlah': jumlah, 'harga': harga};
 }
 
 class ItemLayanan {
@@ -103,20 +42,15 @@ class ItemLayanan {
   final double harga;
 
   ItemLayanan({required this.nama, required this.jumlah, required this.harga});
-
   double get subtotal => jumlah * harga;
 
   factory ItemLayanan.fromJson(Map<String, dynamic> json) => ItemLayanan(
-    nama: json['nama'] as String,
-    jumlah: (json['jumlah'] as num).toInt(),
-    harga: (json['harga'] as num).toDouble(),
+    nama: _text(json['nama'] ?? json['nama_layanan'] ?? json['nama_poli'], fallback: 'Layanan Medis'),
+    jumlah: _int(json['jumlah'] ?? 1),
+    harga: _double(json['harga'] ?? json['tarif'] ?? json['subtotal']),
   );
 
-  Map<String, dynamic> toJson() => {
-    'nama': nama,
-    'jumlah': jumlah,
-    'harga': harga,
-  };
+  Map<String, dynamic> toJson() => {'nama': nama, 'jumlah': jumlah, 'harga': harga};
 }
 
 class Transaksi {
@@ -146,32 +80,35 @@ class Transaksi {
     required this.daftarLayanan,
   });
 
-  double get totalObat =>
-      daftarObat.fold(0, (sum, item) => sum + item.subtotal);
+  double get totalObat => daftarObat.isEmpty ? subtotalObat : daftarObat.fold(0, (sum, item) => sum + item.subtotal);
+  double get totalLayanan => daftarLayanan.fold(0, (sum, item) => sum + item.subtotal);
+  double get totalKeseluruhan => tarifDokter + tarifPerawat + totalObat + totalLayanan;
 
-  double get totalLayanan =>
-      daftarLayanan.fold(0, (sum, item) => sum + item.subtotal);
+  factory Transaksi.fromJson(Map<String, dynamic> json) {
+    final tx = json['transaksi'] is Map<String, dynamic> ? json['transaksi'] as Map<String, dynamic> : json;
+    final ringkasan = json['ringkasan'] is Map<String, dynamic> ? json['ringkasan'] as Map<String, dynamic> : const <String, dynamic>{};
+    final obatRaw = json['detail_obat'] ?? json['daftar_obat'] ?? tx['detail_obat'] ?? const [];
+    final layananRaw = json['daftar_layanan'] ?? json['detail_layanan'] ?? const [];
+    final obat = obatRaw is List ? obatRaw.whereType<Map<String, dynamic>>().map(ItemObat.fromJson).toList() : <ItemObat>[];
+    final layanan = layananRaw is List ? layananRaw.whereType<Map<String, dynamic>>().map(ItemLayanan.fromJson).toList() : <ItemLayanan>[];
+    final dokter = _double(ringkasan['biaya_dokter'] ?? tx['tarif_dokter']);
+    final perawat = _double(ringkasan['biaya_perawat'] ?? tx['tarif_perawat']);
+    final subtotalObat = _double(ringkasan['subtotal_obat'] ?? tx['subtotal_obat']);
 
-  double get totalKeseluruhan =>
-      tarifDokter + tarifPerawat + totalObat + totalLayanan;
-
-  factory Transaksi.fromJson(Map<String, dynamic> json) => Transaksi(
-    idTransaksi: json['id_transaksi'].toString(),
-    idRm: json['id_rm'].toString(),
-    namaPasien: json['nama_pasien'] as String,
-    tarifDokter: (json['tarif_dokter'] as num).toDouble(),
-    tarifPerawat: (json['tarif_perawat'] as num).toDouble(),
-    subtotalObat: (json['subtotal_obat'] as num).toDouble(),
-    status: json['status'] as String,
-    tanggal: json['tanggal'] as String,
-    noInvoice: json['no_invoice'] as String,
-    daftarObat: (json['daftar_obat'] as List)
-        .map((e) => ItemObat.fromJson(e))
-        .toList(),
-    daftarLayanan: (json['daftar_layanan'] as List)
-        .map((e) => ItemLayanan.fromJson(e))
-        .toList(),
-  );
+    return Transaksi(
+      idTransaksi: _text(tx['id_transaksi']),
+      idRm: _text(tx['id_rm']),
+      namaPasien: _text(tx['nama_pasien'], fallback: '-'),
+      tarifDokter: dokter,
+      tarifPerawat: perawat,
+      subtotalObat: subtotalObat,
+      status: _text(tx['status'], fallback: 'Menunggu'),
+      tanggal: _text(tx['tanggal']),
+      noInvoice: _text(tx['no_invoice'], fallback: 'INV-${_text(tx['id_transaksi'])}'),
+      daftarObat: obat,
+      daftarLayanan: layanan.isNotEmpty ? layanan : [ItemLayanan(nama: _text(tx['nama_poli'], fallback: 'Layanan Medis'), jumlah: 1, harga: dokter + perawat)],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     'id_transaksi': idTransaksi,
@@ -188,78 +125,18 @@ class Transaksi {
   };
 }
 
-// ============================================================
-// DUMMY DATA — Ganti dengan TransaksiService.getByNoAntrian()
-// saat API tersedia.
-// ============================================================
-// Dummy transaksi yang disesuaikan dengan data antrian
 Transaksi getDummyTransaksi() => Transaksi(
-  idTransaksi: '1002', // sesuai dengan AntriItem idTransaksi di antrian_model
-  idRm: '9920',
-  namaPasien: 'Aulia',
-  tarifDokter: 120000,
-  tarifPerawat: 50000,
-  subtotalObat: 15000,
-  status: 'Menunggu',
-  tanggal: '2026-04-23',
-  noInvoice: 'INV-2026/001-000',
-  daftarObat: [
-    // Ambil data dari dummyObat di obat_model.dart
-    ItemObat(nama: dummyObat[0].nama, jumlah: 1, harga: dummyObat[0].harga),
-  ],
+  idTransaksi: '1002', idRm: '9920', namaPasien: 'Aulia', tarifDokter: 120000, tarifPerawat: 50000, subtotalObat: 15000, status: 'Menunggu', tanggal: '2026-04-23', noInvoice: 'INV-2026/001-000',
+  daftarObat: [ItemObat(nama: dummyObat[0].nama, jumlah: 1, harga: dummyObat[0].harga)],
   daftarLayanan: [ItemLayanan(nama: 'Poli Gigi', jumlah: 1, harga: 120000)],
 );
 
-// Tambahan: beberapa data dummy lain untuk keperluan testing
-List<Transaksi> getDummyTransaksiList() => [
-  // Sesuaikan dengan getInitialAntrian() di antrian_model.dart
-  getDummyTransaksi(),
-  Transaksi(
-    idTransaksi: '1003',
-    idRm: '9921',
-    namaPasien: 'Nazwarni Aulia',
-    tarifDokter: 180000,
-    tarifPerawat: 80000,
-    subtotalObat: 8000,
-    status: 'Menunggu',
-    tanggal: '2026-04-23',
-    noInvoice: 'INV-2026/001-001',
-    daftarObat: [
-      ItemObat(nama: dummyObat[0].nama, jumlah: 2, harga: dummyObat[0].harga),
-      ItemObat(nama: dummyObat[1].nama, jumlah: 3, harga: dummyObat[1].harga),
-    ],
-    daftarLayanan: [
-      ItemLayanan(nama: 'Poli Jantung', jumlah: 1, harga: 180000),
-    ],
-  ),
-  Transaksi(
-    idTransaksi: '1004',
-    idRm: '9922',
-    namaPasien: 'Muzakir',
-    tarifDokter: 150000,
-    tarifPerawat: 60000,
-    subtotalObat: 25000,
-    status: 'Selesai',
-    tanggal: '2026-04-20',
-    noInvoice: 'INV-2026/001-002',
-    daftarObat: [
-      ItemObat(nama: dummyObat[2].nama, jumlah: 5, harga: dummyObat[2].harga),
-    ],
-    daftarLayanan: [
-      ItemLayanan(nama: 'Poli Jantung', jumlah: 1, harga: 150000),
-    ],
-  ),
-  Transaksi(
-    idTransaksi: '1005',
-    idRm: '9923',
-    namaPasien: 'Iki Jawir',
-    tarifDokter: 200000,
-    tarifPerawat: 90000,
-    subtotalObat: 0,
-    status: 'Dalam Proses',
-    tanggal: '2026-04-22',
-    noInvoice: 'INV-2026/001-003',
-    daftarObat: [],
-    daftarLayanan: [ItemLayanan(nama: 'Poli Mata', jumlah: 1, harga: 200000)],
-  ),
-];
+List<Transaksi> getDummyTransaksiList() => [getDummyTransaksi()];
+
+int _int(dynamic value) => value is int ? value : value is num ? value.toInt() : int.tryParse(value?.toString() ?? '') ?? 0;
+double _double(dynamic value) => value is num ? value.toDouble() : double.tryParse((value?.toString() ?? '').replaceAll('.', '').replaceAll(',', '.')) ?? 0;
+String _text(dynamic value, {String fallback = ''}) {
+  final text = value?.toString();
+  if (text == null || text.isEmpty || text == 'null') return fallback;
+  return text;
+}
