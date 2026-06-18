@@ -79,6 +79,8 @@ class _TransaksiViewState extends State<TransaksiView> {
       final berhasil = await _service.bayar(
         _transaksi!.idTransaksi,
         _metodePembayaran,
+        totalTagihan: _transaksi!.totalKeseluruhan,
+        jumlahPembayaran: _transaksi!.totalKeseluruhan,
       );
 
       if (!mounted) return;
@@ -150,7 +152,7 @@ class _TransaksiViewState extends State<TransaksiView> {
               padding: const EdgeInsets.all(14),
               child: Column(
                 children: [
-                  // SEARCH — fixed di atas
+                  // SEARCH â€” fixed di atas
                   TransaksiSearch(
                     controller: _searchController,
                     onSearch: _cariTransaksi,
@@ -158,7 +160,7 @@ class _TransaksiViewState extends State<TransaksiView> {
                   ),
                   const SizedBox(height: 14),
 
-                  // KONTEN — scrollable
+                  // KONTEN â€” scrollable
                   Expanded(child: _buildContent()),
                 ],
               ),
